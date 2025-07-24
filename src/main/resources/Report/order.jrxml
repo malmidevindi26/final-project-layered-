@@ -1,0 +1,85 @@
+<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
+<jasperReport name="order" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5ebfefd9-01c7-4192-91a0-eafccd9c5e32">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="laundry Connection"/>
+	<parameter name="p_order_id" class="java.lang.String"/>
+	<query language="SQL"><![CDATA[select c.name, o.order_id, o.clothing_category, o.status ,o.order_date from Customer c join `order` o on c.customer_id = o.customer_id where o.order_id = $P{p_order_id}]]></query>
+	<field name="name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="name"/>
+		<property name="com.jaspersoft.studio.field.label" value="name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="Customer"/>
+	</field>
+	<field name="order_id" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="order_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="order_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="order"/>
+	</field>
+	<field name="clothing_category" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="clothing_category"/>
+		<property name="com.jaspersoft.studio.field.label" value="clothing_category"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="order"/>
+	</field>
+	<field name="status" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="status"/>
+		<property name="com.jaspersoft.studio.field.label" value="status"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="order"/>
+	</field>
+	<field name="order_date" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="order_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="order_date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="order"/>
+	</field>
+	<background splitType="Stretch"/>
+	<title height="79" splitType="Stretch">
+		<element kind="staticText" uuid="e7032663-04c7-4d53-8498-1ed755e171c4" positionType="Float" x="80" y="7" width="400" height="43" fontName="SansSerif" fontSize="22.0">
+			<text><![CDATA[                      Order Details]]></text>
+		</element>
+	</title>
+	<pageHeader height="90" splitType="Stretch">
+		<element kind="staticText" uuid="214b8d4f-61f7-4a99-8ebc-441f7ffb81cd" x="0" y="0" width="100" height="30" fontSize="16.0">
+			<text><![CDATA[Name :]]></text>
+		</element>
+		<element kind="textField" uuid="88a1fbad-a777-40cb-a312-014c7bc4b2f9" x="102" y="5" width="100" height="30" fontSize="16.0">
+			<expression><![CDATA[$F{name}]]></expression>
+		</element>
+		<element kind="staticText" uuid="aa25b90d-b862-44ca-8d47-4831f68ecdf8" x="0" y="30" width="100" height="30" fontSize="16.0">
+			<text><![CDATA[Order Id :]]></text>
+		</element>
+		<element kind="textField" uuid="ee428238-0195-49e9-9882-81fcc6cbd508" x="98" y="30" width="100" height="30" fontSize="16.0">
+			<expression><![CDATA[$F{order_id}]]></expression>
+		</element>
+	</pageHeader>
+	<columnHeader height="61" splitType="Stretch">
+		<element kind="staticText" uuid="756df111-60d8-4f1a-b1dc-55ce40df00e1" x="0" y="0" width="185" height="30">
+			<text><![CDATA[clothing_category]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4088899c-d290-4da2-8d17-dc7b2a797425"/>
+		</element>
+		<element kind="staticText" uuid="c1b9b61f-4ab6-4545-9537-fc693f5c4f92" x="185" y="0" width="185" height="30">
+			<text><![CDATA[status]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3e71f5b-a0ce-4f6b-bbaf-3f2fdd4eb2a4"/>
+		</element>
+		<element kind="staticText" uuid="5ca8608c-7c1c-4fff-941f-b100d1186565" x="370" y="0" width="185" height="30">
+			<text><![CDATA[order_date]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="95aecb88-f6d8-44d8-bd9e-e08a8b1e1420"/>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<element kind="textField" uuid="84f673b6-47b4-4ba8-b7ae-1fb3fe05131a" x="0" y="0" width="185" height="30">
+				<expression><![CDATA[$F{clothing_category}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4088899c-d290-4da2-8d17-dc7b2a797425"/>
+			</element>
+			<element kind="textField" uuid="db0e67e7-e70e-463f-b0c5-d827e90f7774" x="185" y="0" width="185" height="30">
+				<expression><![CDATA[$F{status}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3e71f5b-a0ce-4f6b-bbaf-3f2fdd4eb2a4"/>
+			</element>
+			<element kind="textField" uuid="762dc70d-3f0b-415c-9b48-78e409aa55c3" x="370" y="0" width="185" height="30">
+				<expression><![CDATA[$F{order_date}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="95aecb88-f6d8-44d8-bd9e-e08a8b1e1420"/>
+			</element>
+		</band>
+	</detail>
+	<columnFooter height="45" splitType="Stretch"/>
+	<pageFooter height="54" splitType="Stretch"/>
+	<summary height="42" splitType="Stretch"/>
+</jasperReport>

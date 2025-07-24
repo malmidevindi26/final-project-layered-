@@ -1,0 +1,74 @@
+<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
+<jasperReport name="ProjectCustomer" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7b769ebb-7592-436f-90a0-ce481bec2a67">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="laundry Connection"/>
+	<parameter name="p_customer_id" class="java.lang.String"/>
+	<query language="SQL"><![CDATA[select c.name, o.order_id, o.clothing_category, o.order_date from Customer c join `order` o on c.customer_id = o.customer_id where c.customer_id = $P{p_customer_id}]]></query>
+	<field name="name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="name"/>
+		<property name="com.jaspersoft.studio.field.label" value="name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="Customer"/>
+	</field>
+	<field name="order_id" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="order_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="order_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="order"/>
+	</field>
+	<field name="clothing_category" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="clothing_category"/>
+		<property name="com.jaspersoft.studio.field.label" value="clothing_category"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="order"/>
+	</field>
+	<field name="order_date" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="order_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="order_date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="order"/>
+	</field>
+	<background splitType="Stretch"/>
+	<title height="79" splitType="Stretch">
+		<element kind="staticText" uuid="b5d175d6-629b-4a77-ba52-da944406ac08" positionType="FixRelativeToBottom" x="162" y="10" width="288" height="30" fontSize="16.0">
+			<text><![CDATA[  Customer Details]]></text>
+		</element>
+	</title>
+	<pageHeader height="72" splitType="Stretch">
+		<element kind="staticText" uuid="35bfe572-949a-47d2-b3c7-b610d836d579" x="0" y="10" width="80" height="30" fontSize="12.0">
+			<text><![CDATA[Name: ]]></text>
+		</element>
+		<element kind="textField" uuid="fe2797b4-5c6e-4079-8b38-ced615589ea0" x="80" y="10" width="100" height="30">
+			<expression><![CDATA[$F{name}]]></expression>
+		</element>
+	</pageHeader>
+	<columnHeader height="61" splitType="Stretch">
+		<element kind="staticText" uuid="b208153f-ff3c-471e-9455-f5ca06b5707f" x="0" y="0" width="141" height="30">
+			<text><![CDATA[order_id]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1b6544f5-0b26-4cf8-8ec7-e23c944fedf1"/>
+		</element>
+		<element kind="staticText" uuid="0ffbd2d7-aaa6-4103-8b60-98f0e2d65536" x="141" y="0" width="138" height="30">
+			<text><![CDATA[clothing_category]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e51e282f-945b-4afa-ae0c-0a1ba7d3a348"/>
+		</element>
+		<element kind="staticText" uuid="ab639b06-1110-4bfe-bce4-4b8360dff0d0" x="279" y="0" width="138" height="30">
+			<text><![CDATA[order_date]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="59f2d739-5e06-4b2c-a684-ebec313256c7"/>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<element kind="textField" uuid="3b517b4b-085e-49b1-a403-95c70f70ba70" x="0" y="0" width="141" height="30">
+				<expression><![CDATA[$F{order_id}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1b6544f5-0b26-4cf8-8ec7-e23c944fedf1"/>
+			</element>
+			<element kind="textField" uuid="0b7cc91f-14fa-44c1-acbf-1e101c743cfe" x="141" y="0" width="138" height="30">
+				<expression><![CDATA[$F{clothing_category}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e51e282f-945b-4afa-ae0c-0a1ba7d3a348"/>
+			</element>
+			<element kind="textField" uuid="f5431d7f-5d3f-4d8a-b45a-a43081c808d1" x="279" y="0" width="138" height="30">
+				<expression><![CDATA[$F{order_date}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="59f2d739-5e06-4b2c-a684-ebec313256c7"/>
+			</element>
+		</band>
+	</detail>
+	<columnFooter height="45" splitType="Stretch"/>
+	<pageFooter height="54" splitType="Stretch"/>
+	<summary height="42" splitType="Stretch"/>
+</jasperReport>

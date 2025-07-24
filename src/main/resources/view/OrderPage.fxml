@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="662.0" prefWidth="944.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.project.layered.controller.OrderController">
+   <children>
+      <VBox prefHeight="686.0" prefWidth="952.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="58.0" prefWidth="952.0" text="Order Page">
+               <font>
+                  <Font name="System Bold" size="30.0" />
+               </font>
+            </Label>
+            <HBox prefHeight="45.0" prefWidth="949.0">
+               <children>
+                  <Label prefHeight="45.0" prefWidth="229.0" text="Order Id">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblOrderId" prefHeight="48.0" prefWidth="239.0">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox prefHeight="50.0" prefWidth="949.0">
+               <children>
+                  <Label prefHeight="68.0" prefWidth="228.0" text="Customer Id">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="comCustId" prefHeight="50.0" prefWidth="256.0" />
+                  <Label prefHeight="50.0" prefWidth="146.0" text="Capacity(KG)">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtCapacity" prefHeight="50.0" prefWidth="318.0" promptText="100" />
+               </children>
+            </HBox>
+            <HBox prefHeight="50.0" prefWidth="949.0">
+               <children>
+                  <Label prefHeight="68.0" prefWidth="228.0" text="Category">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtCate" prefHeight="50.0" prefWidth="255.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 0 0 1px 0;" />
+                  <Label prefHeight="50.0" prefWidth="145.0" text="  Service Id">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="comServiceId" prefHeight="56.0" prefWidth="240.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="50.0" prefWidth="949.0">
+               <children>
+                  <Label prefHeight="68.0" prefWidth="228.0" text="Date">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtDate" prefHeight="50.0" prefWidth="722.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 0 0 1px 0;" />
+               </children>
+            </HBox>
+            <HBox prefHeight="50.0" prefWidth="949.0">
+               <children>
+                  <Label prefHeight="68.0" prefWidth="228.0" text="Status">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="comStatus" prefHeight="48.0" prefWidth="225.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="8.0" prefWidth="949.0" />
+            <HBox prefHeight="60.0" prefWidth="949.0">
+               <children>
+                  <Button fx:id="btnReport" mnemonicParsing="false" onAction="#ReportOnAction" prefHeight="43.0" prefWidth="185.0" style="-fx-background-color: #778899 " text="Report">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#btnResetOnAction" prefHeight="43.0" prefWidth="185.0" style="-fx-background-color: #FFE4C4 " text="Reset">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#btnUpdateOnAction" prefHeight="43.0" prefWidth="185.0" style="-fx-background-color: #00FF00 " text="Update">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#btnDeleteOnAction" prefHeight="43.0" prefWidth="185.0" style="-fx-background-color: #FF4500 " text="Delete">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="43.0" prefWidth="185.0" style="-fx-background-color: #0000CD " text="Save">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+            <TableView fx:id="tblOrder" onMouseClicked="#tblOnClick" prefHeight="293.0" prefWidth="949.0">
+               <columns>
+                  <TableColumn fx:id="colOrId" prefWidth="75.0" text="C1" />
+                  <TableColumn fx:id="colCustomId" prefWidth="75.0" text="C2" />
+                  <TableColumn fx:id="colCate" prefWidth="75.0" text="Column X" />
+                  <TableColumn fx:id="colDate" prefWidth="75.0" text="Column X" />
+                  <TableColumn fx:id="colStatus" prefWidth="75.0" text="Column X" />
+                  <TableColumn fx:id="colService" prefWidth="75.0" text="Column X" />
+               </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
