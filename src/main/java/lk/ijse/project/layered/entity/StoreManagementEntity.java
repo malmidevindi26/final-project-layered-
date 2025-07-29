@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -11,5 +13,5 @@ import lombok.NoArgsConstructor;
 public class StoreManagementEntity {
     private String storeId;
     private String orderId;
-    private String capacity;
+    private BigDecimal capacity;
 }

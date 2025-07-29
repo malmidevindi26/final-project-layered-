@@ -28,7 +28,7 @@ public class OrderItemDAOImpl implements OrderItemDAO {
     }
 
     @Override
-    public boolean delete(OrderEntity orderEntity) throws SQLException {
+    public boolean delete(String id) throws SQLException, ClassNotFoundException {
         return false;
     }
 

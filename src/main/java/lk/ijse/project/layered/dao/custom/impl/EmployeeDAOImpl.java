@@ -2,10 +2,7 @@ package lk.ijse.project.layered.dao.custom.impl;
 
 import lk.ijse.project.layered.dao.SQLUtil;
 import lk.ijse.project.layered.dao.custom.EmployeeDAO;
-import lk.ijse.project.layered.dto.EmployeeDto;
-import lk.ijse.project.layered.entity.CustomerEntity;
 import lk.ijse.project.layered.entity.EmployeeEntity;
-import lk.ijse.project.layered.util.CrudUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
