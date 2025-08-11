@@ -11,8 +11,8 @@ import java.util.Date;
 public class InventoryEntity {
     private String id;
     private String name;
-    private Date manuDate;
-    private Date expiryDate;
+    private String manuDate;
+    private String expiryDate;
     private String status;
     private double qty;
     private double price;

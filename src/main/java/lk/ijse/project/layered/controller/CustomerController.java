@@ -14,6 +14,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import lk.ijse.project.layered.bo.BOFactory;
+import lk.ijse.project.layered.bo.BOType;
+import lk.ijse.project.layered.bo.custom.CustomerBO;
+import lk.ijse.project.layered.bo.exception.DuplicateException;
+import lk.ijse.project.layered.bo.exception.InUseException;
 import lk.ijse.project.layered.db.DBConnection;
 import lk.ijse.project.layered.dto.CustomerDto;
 import lk.ijse.project.layered.dto.tm.CustomerTM;
@@ -44,6 +49,8 @@ public class CustomerController implements Initializable {
     @FXML
 
     private final CustomerModel customerModel = new CustomerModel();
+    private final CustomerBO customerBO = BOFactory.getInstance().getBO(BOType.CUSTOMER);
+
 
     public TableView<CustomerTM> tblCustomer;
     public TableColumn<CustomerTM, String> colId;
@@ -147,24 +154,32 @@ public class CustomerController implements Initializable {
             CustomerDto customerDto = new CustomerDto(customerId, name, address, contact, email);
 
             try {
-                boolean isSave = customerModel.saveCustomer(customerDto);
-                if (isSave) {
-                    resetPage();
-                    new Alert(Alert.AlertType.INFORMATION, "Customer Saved").show();
-
-                } else {
-                    new Alert(Alert.AlertType.ERROR, "Customer Not Saved").show();
-                }
-            } catch (SQLException e) {
+                //boolean isSave = customerModel.saveCustomer(customerDto);
+                customerBO.saveCustomer(customerDto);
+//                if (isSave) {
+//                    resetPage();
+//                    new Alert(Alert.AlertType.INFORMATION, "Customer Saved").show();
+//
+//                } else {
+//                    new Alert(Alert.AlertType.ERROR, "Customer Not Saved").show();
+//                }
+                resetPage();
+                new Alert(Alert.AlertType.INFORMATION, "Customer Saved").show();
+            } catch (DuplicateException e) {
+                System.out.println(e.getMessage());
+//                e.printStackTrace();
+                new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+            }catch (Exception e) {
                 e.printStackTrace();
-                new Alert(Alert.AlertType.ERROR, "Fail to save customer").show();
+                new Alert(Alert.AlertType.ERROR, "Customer Not Saved").show();
             }
 
         }
     }
 
-    private void loadNextId() throws SQLException, ClassNotFoundException {
-        String nextId = customerModel.getNextId();
+    private void loadNextId() throws Exception {
+       // String nextId = customerModel.getNextId();
+        String nextId = customerBO.getNextId();
         lblId.setText(nextId);
     }
 
@@ -175,21 +190,25 @@ public class CustomerController implements Initializable {
         if(response.isPresent() && response.get() == ButtonType.YES){
             try {
                 String customerId = lblId.getText();
-                boolean isDelete = customerModel.deleteCustomer(customerId);
+//                boolean isDelete = customerModel.deleteCustomer(customerId);
+                boolean isDelete = customerBO.deleteCustomer(customerId);
                 if (isDelete) {
                     resetPage();
                     new Alert(Alert.AlertType.INFORMATION, "Customer Deleted").show();
                 }else {
                     new Alert(Alert.AlertType.ERROR, "Customer Not Deleted").show();
                 }
-            } catch (Exception e) {
+            }  catch (InUseException e) {
+                new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+            }
+            catch (Exception e) {
                 new Alert(Alert.AlertType.ERROR, "Fail to delete customer").show();
                 e.printStackTrace();
             }
         }
     }
 
-    private void resetPage() throws SQLException, ClassNotFoundException {
+    private void resetPage() throws Exception {
         loadNextId();
         loadTableData();
 
@@ -218,22 +237,21 @@ public class CustomerController implements Initializable {
            CustomerDto customerDto = new CustomerDto(customerId, name, address, contact, email);
 
            try {
-               boolean isUpdate = customerModel.updateCustomer(customerDto);
-               if (isUpdate) {
-                   resetPage();
-                   new Alert(Alert.AlertType.INFORMATION, "Customer update").show();
+              customerBO.updateCustomer(customerDto);
 
-               } else {
-                   new Alert(Alert.AlertType.ERROR, "Customer Not update").show();
-               }
-           } catch (SQLException | ClassNotFoundException e) {
+              resetPage();
+               new Alert(
+                       Alert.AlertType.INFORMATION, "Customer update successfully..!"
+               ).show();
+           } catch (Exception e) {
                e.printStackTrace();
-               new Alert(Alert.AlertType.ERROR, "Fail to save update").show();
+               new Alert(Alert.AlertType.ERROR, "Fail to update customer").show();
            }
+
        }
     }
 
-    public void btnResetOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
+    public void btnResetOnAction(ActionEvent actionEvent) throws Exception {
         resetPage();
     }
 

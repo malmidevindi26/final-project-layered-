@@ -7,6 +7,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.project.layered.bo.BOFactory;
+import lk.ijse.project.layered.bo.BOType;
+import lk.ijse.project.layered.bo.custom.EmployeeBO;
+import lk.ijse.project.layered.bo.exception.InUseException;
 import lk.ijse.project.layered.dto.EmployeeDto;
 import lk.ijse.project.layered.dto.tm.EmployeeTM;
 import lk.ijse.project.layered.model.EmployeeModel;
@@ -27,6 +31,7 @@ public class EmployeeController implements Initializable {
     public TextField txtRole;
 
     private final EmployeeModel employeeModel = new EmployeeModel();
+    private final EmployeeBO employeeBO = BOFactory.getInstance().getBO(BOType.EMPLOYEE);
 
     public TableView <EmployeeTM>tblEmployee;
     public TableColumn <EmployeeTM, String> colId;
@@ -151,22 +156,28 @@ public class EmployeeController implements Initializable {
            EmployeeDto employeeDto = new EmployeeDto(employeeId, name, address, contact, salary, hireDate, role);
 
            try {
-               boolean isSave = employeeModel.saveEmployee(employeeDto);
-               if (isSave) {
+               employeeBO.saveEmployee(employeeDto);
+//               boolean isSave = employeeModel.saveEmployee(employeeDto);
+//               if (isSave) {
                    resetPage();
                    new Alert(Alert.AlertType.INFORMATION, "Employee has been saved successfully").show();
-               }else {
-                   new Alert(Alert.AlertType.ERROR, "Employee has not been saved").show();
-               }
+//               }else {
+//                   new Alert(Alert.AlertType.ERROR, "Employee has not been saved").show();
+//               }
 
            }catch (SQLException | ClassNotFoundException e){
                new Alert(Alert.AlertType.ERROR, "Employee has not been saved").show();
                e.printStackTrace();
+           } catch (Exception e) {
+               System.out.println(e.getMessage());
+//                e.printStackTrace();
+               new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
            }
        }
     }
 
     private void loadNextId() throws SQLException, ClassNotFoundException {
+//        String nextId = employeeModel.getNextId();
         String nextId = employeeModel.getNextId();
         lblId.setText(nextId);
     }
@@ -183,7 +194,8 @@ public class EmployeeController implements Initializable {
         if(response.isPresent() && response.get() == ButtonType.YES){
             try {
                 String employeeId = lblId.getText();
-                boolean isDelete = employeeModel.deleteEmployee(employeeId);
+//                boolean isDelete = employeeModel.deleteEmployee(employeeId);
+                boolean isDelete = employeeBO.deleteEmployee(employeeId);
                 if (isDelete) {
                     resetPage();
                     new Alert(Alert.AlertType.INFORMATION, "Customer Deleted").show();
@@ -210,13 +222,11 @@ public class EmployeeController implements Initializable {
             EmployeeDto employeeDto = new EmployeeDto(employeeId, name, address, contact, salary, hireDate, role);
 
             try {
-                boolean isUpdate = employeeModel.updateEmployee(employeeDto);
-                if (isUpdate) {
+//                boolean isUpdate = employeeModel.updateEmployee(employeeDto);
+                employeeBO.updateEmployee(employeeDto);
                     resetPage();
                     new Alert(Alert.AlertType.INFORMATION, "Employee has been updated successfully").show();
-                }else {
-                    new Alert(Alert.AlertType.ERROR, "Employee has not been updated").show();
-                }
+
 
             }catch (SQLException | ClassNotFoundException e){
                 new Alert(Alert.AlertType.ERROR, "Employee has not been updated").show();

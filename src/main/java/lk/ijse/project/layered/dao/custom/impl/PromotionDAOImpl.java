@@ -21,7 +21,7 @@ public class PromotionDAOImpl implements PromotionDAO {
                     rst.getString(1),
                     rst.getString(2),
                     rst.getInt(3),
-                    rst.getDate(4),
+                    rst.getString(4),
                     rst.getString(5)
 
             );
@@ -94,7 +94,7 @@ public class PromotionDAOImpl implements PromotionDAO {
                     rst.getString(1),
                     rst.getString(2),
                     rst.getInt(3),
-                    rst.getDate(4),
+                    rst.getString(4),
                     rst.getString(5)
             ));
         }

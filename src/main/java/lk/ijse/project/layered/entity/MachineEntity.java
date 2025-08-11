@@ -13,7 +13,7 @@ public class MachineEntity {
     private String id;
     private String type;
     private String status;
-    private BigDecimal cost;
-    private Date date;
+    private double cost;
+    private String date;
 
 }

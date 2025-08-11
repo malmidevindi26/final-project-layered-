@@ -22,8 +22,8 @@ public class SupplierDAOImpl implements SupplierDAO {
                     rst.getString(3),
                     rst.getString(4),
                     rst.getString(5),
-                    rst.getBigDecimal(6),
-                    rst.getDate(7)
+                    rst.getDouble(6),
+                    rst.getString(7)
             );
             list.add(supplierEntity);
         }
@@ -97,8 +97,8 @@ public class SupplierDAOImpl implements SupplierDAO {
                     rst.getString(3),
                     rst.getString(4),
                     rst.getString(5),
-                    rst.getBigDecimal(6),
-                    rst.getDate(7)
+                    rst.getDouble(6),
+                    rst.getString(7)
             ));
         }
         return Optional.empty();

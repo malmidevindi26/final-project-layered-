@@ -19,8 +19,8 @@ public class SalaryDAOImpl implements SalaryDAO {
             SalaryEntity salaryEntity = new SalaryEntity(
                     rst.getString(1),
                     rst.getString(2),
-                    rst.getBigDecimal(3),
-                    rst.getDate(4)
+                    rst.getDouble(3),
+                    rst.getString(4)
             );
             list.add(salaryEntity);
         }
@@ -85,8 +85,8 @@ public class SalaryDAOImpl implements SalaryDAO {
             return Optional.of(new SalaryEntity(
                     rst.getString(1),
                     rst.getString(2),
-                    rst.getBigDecimal(3),
-                    rst.getDate(4)
+                    rst.getDouble(3),
+                    rst.getString(4)
 
             ));
         }

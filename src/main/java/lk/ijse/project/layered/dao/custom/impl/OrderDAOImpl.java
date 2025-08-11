@@ -23,10 +23,10 @@ public class OrderDAOImpl implements OrderDAO {
                     rst.getString(1),
                     rst.getString(2),
                     rst.getString(3),
-                    rst.getDate(4),
+                    rst.getString(4),
                     rst.getString(5),
                     rst.getString(6),
-                    rst.getBigDecimal(7)
+                    rst.getDouble(7)
             );
             list.add(OrderEntity);
         }
@@ -99,12 +99,18 @@ public class OrderDAOImpl implements OrderDAO {
                     rst.getString(1),
                     rst.getString(2),
                     rst.getString(3),
-                    rst.getDate(4),
+                    rst.getString(4),
                     rst.getString(5),
                     rst.getString(6),
-                    rst.getBigDecimal(7)
+                    rst.getDouble(7)
             ));
         }
         return Optional.empty();
+    }
+
+    @Override
+    public boolean existOrdersByCustomerId(String customerId) throws SQLException, ClassNotFoundException {
+        ResultSet resultSet = SQLUtil.execute("SELECT * FROM `order` WHERE customer_id = ?", customerId);
+        return resultSet.next();
     }
 }

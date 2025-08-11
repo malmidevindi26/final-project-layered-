@@ -7,6 +7,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.project.layered.bo.BOFactory;
+import lk.ijse.project.layered.bo.BOType;
+import lk.ijse.project.layered.bo.custom.PaymentBO;
+import lk.ijse.project.layered.bo.custom.PenaltyBO;
+import lk.ijse.project.layered.bo.custom.StoreManagementBO;
 import lk.ijse.project.layered.dto.PaymentDto;
 import lk.ijse.project.layered.dto.PenaltyDto;
 import lk.ijse.project.layered.dto.tm.PaymentTM;
@@ -34,6 +39,9 @@ public class PaymentController implements Initializable {
     private final OrderServiceModel orderServiceModel = new OrderServiceModel();
     private final PenaltyModel penaltyModel = new PenaltyModel();
     private final StoreManagementModel storeModel = new StoreManagementModel();
+    private final PaymentBO paymentBO = BOFactory.getInstance().getBO(BOType.PAYMENT);
+    private final PenaltyBO penaltyBO = BOFactory.getInstance().getBO(BOType.ORDER);
+    private final StoreManagementBO storeManagementBO = BOFactory.getInstance().getBO(BOType.STOREMANAGEMENT);
 
   //  private String penaltyId;
 
@@ -180,7 +188,7 @@ public class PaymentController implements Initializable {
 
            // penaltyId = penaltyModel.getNextId();
             try {
-               String penaltyId = penaltyModel.getNextId();
+               String penaltyId = penaltyBO.getNextId();
                 String storeId = storeModel.getStoreId(orderId);
 
                 PenaltyDto penaltyDto = new PenaltyDto(penaltyId,orderId,storeId,penaltyMount,date);
@@ -210,7 +218,7 @@ public class PaymentController implements Initializable {
     }
 
     private void loadNextId() throws SQLException, ClassNotFoundException {
-        String nextId = paymentModel.getNextId();
+        String nextId = paymentBO.getNextId();
         lblPayId.setText(nextId);
     }
 
@@ -269,7 +277,7 @@ public class PaymentController implements Initializable {
         if(response.isPresent() && response.get() == ButtonType.YES){
             try {
                 String paymentId = lblPayId.getText();
-                boolean isDelete = paymentModel.deletePayment(paymentId);
+                boolean isDelete = paymentBO.deletePayment(paymentId);
                 if (isDelete) {
                     resetPage();
                     new Alert(Alert.AlertType.INFORMATION, "Payment Deleted").show();

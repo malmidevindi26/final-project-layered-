@@ -22,8 +22,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
                     rst.getString(2),
                     rst.getString(3),
                     rst.getString(4),
-                    rst.getBigDecimal(5),
-                    rst.getDate(6),
+                    rst.getDouble(5),
+                    rst.getString(6),
                     rst.getString(7)
             );
             list.add(employeeEntity);
@@ -99,8 +99,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
                     rst.getString(2),
                     rst.getString(3),
                     rst.getString(4),
-                    rst.getBigDecimal(5),
-                    rst.getDate(6),
+                    rst.getDouble(5),
+                    rst.getString(6),
                     rst.getString(7)
             ));
         }

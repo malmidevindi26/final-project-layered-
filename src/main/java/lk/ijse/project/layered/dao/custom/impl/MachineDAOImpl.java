@@ -22,8 +22,8 @@ public class MachineDAOImpl implements MachineDAO {
                     rst.getString(1),
                     rst.getString(2),
                     rst.getString(3),
-                    rst.getBigDecimal(4),
-                    rst.getDate(5)
+                    rst.getDouble(4),
+                    rst.getString(5)
             );
             list.add(machineEntity);
         }
@@ -92,8 +92,8 @@ public class MachineDAOImpl implements MachineDAO {
                     rst.getString(1),
                     rst.getString(2),
                     rst.getString(3),
-                    rst.getBigDecimal(4),
-                    rst.getDate(5)
+                    rst.getDouble(4),
+                    rst.getString(5)
             ));
         }
         return Optional.empty();

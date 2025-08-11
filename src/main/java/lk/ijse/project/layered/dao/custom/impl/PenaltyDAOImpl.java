@@ -19,7 +19,7 @@ public class PenaltyDAOImpl implements PenaltyDAO {
                     rst.getString(1),
                     rst.getString(2),
                     rst.getString(3),
-                    rst.getBigDecimal(4),
+                    rst.getDouble(4),
                     rst.getString(5)
             );
             list.add(penaltyEntity);
@@ -88,7 +88,7 @@ public class PenaltyDAOImpl implements PenaltyDAO {
                     rst.getString(1),
                     rst.getString(2),
                     rst.getString(3),
-                    rst.getBigDecimal(4),
+                    rst.getDouble(4),
                     rst.getString(5)
             ));
         }

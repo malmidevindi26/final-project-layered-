@@ -7,6 +7,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.project.layered.bo.BOFactory;
+import lk.ijse.project.layered.bo.BOType;
+import lk.ijse.project.layered.bo.custom.InventoryBO;
+import lk.ijse.project.layered.bo.exception.DuplicateException;
 import lk.ijse.project.layered.dto.InventoryDto;
 import lk.ijse.project.layered.dto.tm.InventoryTM;
 import lk.ijse.project.layered.model.InventoryModel;
@@ -27,6 +31,7 @@ public class InventoryController implements Initializable {
     public TextField txtQty;
 
     private final InventoryModel inventoryModel = new InventoryModel();
+    private final InventoryBO inventoryBO = BOFactory.getInstance().getBO(BOType.INVENTORY);
 
     public TableView <InventoryTM>tblInventory;
     public TableColumn <InventoryTM, String> colInventoryId;
@@ -144,14 +149,15 @@ public class InventoryController implements Initializable {
            InventoryDto inventoryDto = new InventoryDto(inventoryId,name,manufactureDate,expaireDate,status,quantity,price);
 
            try {
-               boolean isSave = inventoryModel.saveInventory(inventoryDto);
-               if (isSave) {
+                 inventoryBO.saveInventory(inventoryDto);
+//               boolean isSave = inventoryModel.saveInventory(inventoryDto);
+//               if (isSave) {
                    resetPage();
                    new Alert(Alert.AlertType.INFORMATION, "Inventory Saved").show();
 
-               }else {
-                   new Alert(Alert.AlertType.ERROR, "Inventory Not Saved").show();
-               }
+//               }else {
+//                   new Alert(Alert.AlertType.ERROR, "Inventory Not Saved").show();
+//               }
            }catch (Exception e){
                new Alert(Alert.AlertType.ERROR, "Inventory Not Saved").show();
                e.printStackTrace();
@@ -160,13 +166,14 @@ public class InventoryController implements Initializable {
 
     }
 
-    private void loadNextId() throws SQLException, ClassNotFoundException {
-        String nextId = inventoryModel.getNextId();
+    private void loadNextId() throws Exception {
+       // String nextId = inventoryModel.getNextId();
+        String nextId = inventoryBO.getNextId();
         lblId.setText(nextId);
     }
 
 
-    public void btnResetOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
+    public void btnResetOnAction(ActionEvent actionEvent) throws Exception {
         resetPage();
     }
 
@@ -202,14 +209,11 @@ public class InventoryController implements Initializable {
            InventoryDto inventoryDto = new InventoryDto(inventoryId,name,manufactureDate,expaireDate,status,quantity,price);
 
            try {
-               boolean isUpdate = inventoryModel.updateInventory(inventoryDto);
-               if (isUpdate) {
+              inventoryBO.updateInventory(inventoryDto);
+
                    resetPage();
                    new Alert(Alert.AlertType.INFORMATION, "Inventory updated").show();
 
-               }else {
-                   new Alert(Alert.AlertType.ERROR, "Inventory Not updated").show();
-               }
            }catch (Exception e){
                new Alert(Alert.AlertType.ERROR, "Inventory Not updated").show();
                e.printStackTrace();
@@ -224,7 +228,8 @@ public class InventoryController implements Initializable {
         if(response.isPresent() && response.get() == ButtonType.YES){
             try {
                 String inventoryId = lblId.getText();
-                boolean isDelete = inventoryModel.deleteInventory(inventoryId);
+//                boolean isDelete = inventoryModel.deleteInventory(inventoryId);
+                boolean isDelete = inventoryBO.deleteInventory(inventoryId);
                 if (isDelete) {
                     resetPage();
                     new Alert(Alert.AlertType.INFORMATION, "Inventory Deleted").show();
@@ -237,7 +242,8 @@ public class InventoryController implements Initializable {
             }
         }
     }
-    private void resetPage() throws SQLException, ClassNotFoundException {
+
+    private void resetPage() throws Exception {
         loadNextId();
         loadTableData();
 

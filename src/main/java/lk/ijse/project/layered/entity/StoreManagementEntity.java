@@ -13,5 +13,5 @@ import java.math.BigDecimal;
 public class StoreManagementEntity {
     private String storeId;
     private String orderId;
-    private BigDecimal capacity;
+    private double capacity;
 }

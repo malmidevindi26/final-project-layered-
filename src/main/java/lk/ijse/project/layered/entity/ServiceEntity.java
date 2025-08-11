@@ -11,6 +11,6 @@ import java.math.BigDecimal;
 public class ServiceEntity {
     private String id;
     private String name;
-    private BigDecimal price;
+    private double price;
     private String description;
 }

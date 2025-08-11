@@ -2,7 +2,9 @@ package lk.ijse.project.layered.dao.custom.impl;
 
 import lk.ijse.project.layered.dao.SQLUtil;
 import lk.ijse.project.layered.dao.custom.StoreManagementDAO;
+import lk.ijse.project.layered.dto.StoreManagementDto;
 import lk.ijse.project.layered.entity.StoreManagementEntity;
+import lk.ijse.project.layered.util.CrudUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,7 +21,7 @@ public class StoreManagementDAOImpl implements StoreManagementDAO {
             StoreManagementEntity storeManagementEntity = new StoreManagementEntity(
                     rst.getString(1),
                     rst.getString(2),
-                    rst.getBigDecimal(3)
+                    rst.getDouble(3)
             );
             list.add(storeManagementEntity);
         }
@@ -82,10 +84,31 @@ public class StoreManagementDAOImpl implements StoreManagementDAO {
             return Optional.of(new StoreManagementEntity(
                     rst.getString(1),
                     rst.getString(2),
-                    rst.getBigDecimal(3)
+                    rst.getDouble(3)
 
             ));
         }
         return Optional.empty();
+    }
+
+    @Override
+    public String getStoreId(String orderId) throws SQLException, ClassNotFoundException {
+        ResultSet rst = SQLUtil.execute("SELECT store_id FROM StoreManagement WHERE order_id = ?", orderId);
+        if (rst.next()) {
+            return rst.getString("store_id");
+        }
+        return "null";
+    }
+
+    @Override
+    public boolean updateOrInsertStore(StoreManagementEntity entity) throws SQLException, ClassNotFoundException {
+        boolean isUpdated = SQLUtil.execute("UPDATE StoreManagement SET order_id = ?, capacity = ? WHERE store_id = ?",
+                entity.getOrderId(), entity.getCapacity(), entity.getStoreId());
+
+        if (!isUpdated) {
+            return CrudUtil.execute("INSERT INTO StoreManagement (store_id, order_id, capacity) VALUES (?, ?, ?)",
+                    entity.getStoreId(), entity.getOrderId(), entity.getCapacity());
+        }
+        return true;
     }
 }

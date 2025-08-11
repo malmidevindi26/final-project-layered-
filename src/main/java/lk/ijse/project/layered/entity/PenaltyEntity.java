@@ -12,6 +12,6 @@ public class PenaltyEntity {
     private String penaltyId;
     private String orderId;
     private String storeId;
-    private BigDecimal amount;
+    private double amount;
     private String reason;
 }

@@ -20,8 +20,8 @@ public class UtilityExpenseDAOImpl implements UtilityExpenseDAO {
             UtilityExpenseEntity utilityExpenseEntity = new UtilityExpenseEntity(
                     rst.getString(1),
                     rst.getString(2),
-                    rst.getBigDecimal(3),
-                    rst.getDate(4)
+                    rst.getDouble(3),
+                    rst.getString(4)
 
             );
             list.add(utilityExpenseEntity);
@@ -88,8 +88,8 @@ public class UtilityExpenseDAOImpl implements UtilityExpenseDAO {
             return Optional.of(new UtilityExpenseEntity(
                     rst.getString(1),
                     rst.getString(2),
-                    rst.getBigDecimal(3),
-                    rst.getDate(4)
+                    rst.getDouble(3),
+                    rst.getString(4)
             ));
         }
         return Optional.empty();

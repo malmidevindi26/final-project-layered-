@@ -7,6 +7,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.project.layered.bo.BOFactory;
+import lk.ijse.project.layered.bo.BOType;
+import lk.ijse.project.layered.bo.custom.OrderBO;
 import lk.ijse.project.layered.db.DBConnection;
 import lk.ijse.project.layered.dto.OrderDto;
 import lk.ijse.project.layered.dto.OrderServiceDto;
@@ -36,6 +39,8 @@ public class OrderController implements Initializable {
     private final CustomerModel customerModel = new CustomerModel();
     private final ServiceModel serviceModel = new ServiceModel();
     private  final StoreManagementModel storeManagementModel = new StoreManagementModel();
+    private final OrderBO orderBO = BOFactory.getInstance().getBO(BOType.ORDER);
+
     public TableView <OrderTM> tblOrder;
     public TableColumn <OrderTM, String> colOrId;
     public TableColumn <OrderTM, String> colCustomId;
@@ -170,7 +175,8 @@ public class OrderController implements Initializable {
     }
 
     private void loadNextId() throws SQLException, ClassNotFoundException {
-        String nextId = orderModel.getNextId();
+       // String nextId = orderModel.getNextId();
+        String nextId = orderBO.getNextId();
         lblOrderId.setText(nextId);
     }
 
@@ -230,7 +236,8 @@ public class OrderController implements Initializable {
         if(response.isPresent() && response.get() == ButtonType.YES){
             try {
                 String orderId = lblOrderId.getText();
-                boolean isDelete = OrderModel.deleteOrder(orderId);
+               // boolean isDelete = OrderModel.deleteOrder(orderId);
+                boolean isDelete = orderBO.deleteOrder(orderId);
                 if (isDelete) {
                     resetPage();
                     new Alert(Alert.AlertType.INFORMATION, "Order Deleted").show();

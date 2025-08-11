@@ -20,7 +20,7 @@ public class ServiceDAOImpl implements ServiceDAO {
             ServiceEntity serviceEntity = new ServiceEntity(
                     rst.getString(1),
                     rst.getString(2),
-                    rst.getBigDecimal(3),
+                    rst.getDouble(3),
                     rst.getString(4)
 
             );
@@ -89,7 +89,7 @@ public class ServiceDAOImpl implements ServiceDAO {
             return Optional.of(new ServiceEntity(
                     rst.getString(1),
                     rst.getString(2),
-                    rst.getBigDecimal(3),
+                    rst.getDouble(3),
                     rst.getString(4)
 
             ));

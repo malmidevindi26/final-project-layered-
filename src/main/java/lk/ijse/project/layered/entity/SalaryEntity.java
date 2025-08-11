@@ -12,6 +12,6 @@ import java.util.Date;
 public class SalaryEntity {
     private String salaryId;
     private String employeeId;
-    private BigDecimal salary;
-    private Date issuedDate;
+    private double salary;
+    private String issuedDate;
 }

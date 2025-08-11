@@ -21,8 +21,8 @@ public class InventoryDAOImpl implements InventoryDAO {
                     rst.getString(1),
                     //  rst.getString(2),
                     rst.getString(2),
-                    rst.getDate(3),
-                    rst.getDate(4),
+                    rst.getString(3),
+                    rst.getString(4),
                     rst.getString(5),
                     rst.getDouble(6),
                     rst.getDouble(7)
@@ -98,8 +98,8 @@ public class InventoryDAOImpl implements InventoryDAO {
             return Optional.of(new InventoryEntity(
                     rst.getString(1),
                     rst.getString(2),
-                    rst.getDate(3),
-                    rst.getDate(4),
+                    rst.getString(3),
+                    rst.getString(4),
                     rst.getString(5),
                     rst.getDouble(6),
                     rst.getDouble(7)

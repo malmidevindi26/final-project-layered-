@@ -14,9 +14,9 @@ public class OrderEntity {
     private String orderId;
     private String customerId;
     private String category;
-    private Date date;
+    private String date;
     private String status;
     private String serviceId;
-    private BigDecimal capacity;
+    private double capacity;
 
 }

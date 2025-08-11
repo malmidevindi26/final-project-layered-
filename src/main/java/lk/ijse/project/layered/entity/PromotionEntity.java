@@ -12,6 +12,6 @@ public class PromotionEntity {
     private String id;
     private String code;
     private int discountPercent;
-    private Date expirationDate;
+    private String expirationDate;
     private String description;
 }

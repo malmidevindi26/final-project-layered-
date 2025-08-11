@@ -7,6 +7,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.project.layered.bo.BOFactory;
+import lk.ijse.project.layered.bo.BOType;
+import lk.ijse.project.layered.bo.custom.MachineBO;
 import lk.ijse.project.layered.dto.MachineDto;
 import lk.ijse.project.layered.dto.tm.MachineTM;
 import lk.ijse.project.layered.model.MachineModel;
@@ -39,6 +42,7 @@ public class MachineController implements Initializable {
     public Button btnReport;
 
     MachineModel machineModel = new MachineModel();
+    private final MachineBO machineBO = BOFactory.getInstance().getBO(BOType.MACHINE);
 
     private final String datePattern = "^\\d{4}-\\d{2}-\\d{2}$";
     private final String costPattern = "^[0-9]+(\\.[0-9]{1,2})?$";
@@ -118,13 +122,13 @@ public class MachineController implements Initializable {
                double machineCost = Double.parseDouble(txtCost.getText());
                MachineDto machineDto = new MachineDto(machineId, machineType, machineStatus, machineCost, machineDate);
                machineCost = Double.parseDouble(txtCost.getText());
-               boolean isSave = machineModel.saveMachine(machineDto);
-               if (isSave) {
+
+//               boolean isSave = machineModel.saveMachine(machineDto);
+               machineBO.saveMachine(machineDto);
+
                    resetPage();
                    new Alert(Alert.AlertType.INFORMATION, "Machine saved successfully").show();
-               }else {
-                   new Alert(Alert.AlertType.ERROR, "Machine could not be saved").show();
-               }
+
            } catch (Exception e) {
                new Alert(Alert.AlertType.ERROR, "Machine could not be saved").show();
                e.printStackTrace();
@@ -132,12 +136,13 @@ public class MachineController implements Initializable {
        }
     }
 
-    private void loadNextId() throws SQLException, ClassNotFoundException {
-        String nextId = machineModel.getNextId();
+    private void loadNextId() throws Exception {
+       // String nextId = machineModel.getNextId();
+        String nextId = machineBO.getNextId();
         lblId.setText(nextId);
     }
 
-    public void btnResetOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
+    public void btnResetOnAction(ActionEvent actionEvent) throws Exception {
         resetPage();
     }
 
@@ -152,13 +157,12 @@ public class MachineController implements Initializable {
                 double machineCost = Double.parseDouble(txtCost.getText());
                 MachineDto machineDto = new MachineDto(machineId, machineType, machineStatus, machineCost, machineDate);
                 machineCost = Double.parseDouble(txtCost.getText());
-                boolean isUpdate = machineModel.updateMachine(machineDto);
-                if (isUpdate) {
+               // boolean isUpdate = machineModel.updateMachine(machineDto);
+                machineBO.updateMachine(machineDto);
+
                     resetPage();
                     new Alert(Alert.AlertType.INFORMATION, "Machine updated successfully").show();
-                }else {
-                    new Alert(Alert.AlertType.ERROR, "Machine could not be updated").show();
-                }
+
             } catch (Exception e) {
                 new Alert(Alert.AlertType.ERROR, "Machine could not be updated").show();
                 e.printStackTrace();
@@ -173,7 +177,8 @@ public class MachineController implements Initializable {
         if(response.isPresent() && response.get() == ButtonType.YES){
             try {
                 String machineId = lblId.getText();
-                boolean isDelete = machineModel.deleteCustomer(machineId);
+               // boolean isDelete = machineModel.deleteCustomer(machineId);
+                boolean isDelete =  machineBO.deleteMachine(machineId);
                 if (isDelete) {
                     resetPage();
                     new Alert(Alert.AlertType.INFORMATION, "machine Deleted").show();
@@ -204,7 +209,7 @@ public class MachineController implements Initializable {
 
     }
 
-    private void resetPage() throws SQLException, ClassNotFoundException {
+    private void resetPage() throws Exception {
         loadNextId();
         loadTableData();
 

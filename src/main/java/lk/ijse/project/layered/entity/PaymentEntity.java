@@ -13,10 +13,10 @@ import java.util.Date;
 public class PaymentEntity {
     private String paymentId;
     private String orderId;
-    private BigDecimal promotionAmount;
-    private BigDecimal penaltyAmount;
-    private BigDecimal totalAmount;
+    private double promotionAmount;
+    private double penaltyAmount;
+    private double totalAmount;
     private String method;
     private String status;
-    private Date date;
+    private String date;
 }

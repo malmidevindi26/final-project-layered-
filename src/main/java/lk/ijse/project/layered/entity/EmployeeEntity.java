@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -15,8 +14,8 @@ public class EmployeeEntity {
     private String name;
     private String address;
     private String phone;
-    private BigDecimal salary;
-    private Date date;
+    private double salary;
+    private String date;
     private String role;
 
 

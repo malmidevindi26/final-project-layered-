@@ -16,6 +16,6 @@ public class SupplierEntity {
     private String name;
     private String address;
     private String contact;
-    private BigDecimal amount;
-    private Date date;
+    private double amount;
+    private String date;
 }

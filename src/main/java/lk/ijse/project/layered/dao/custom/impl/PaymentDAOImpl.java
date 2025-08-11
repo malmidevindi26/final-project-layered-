@@ -20,12 +20,12 @@ public class PaymentDAOImpl implements PaymentDAO {
             PaymentEntity paymentEntity = new PaymentEntity(
                     rst.getString(1),
                     rst.getString(2),
-                    rst.getBigDecimal(3),
-                    rst.getBigDecimal(4),
-                    rst.getBigDecimal(5),
+                    rst.getDouble(3),
+                    rst.getDouble(4),
+                    rst.getDouble(5),
                     rst.getString(6),
                     rst.getString(7),
-                    rst.getDate(8)
+                    rst.getString(8)
             );
             list.add(paymentEntity);
         }
@@ -98,12 +98,12 @@ public class PaymentDAOImpl implements PaymentDAO {
             return Optional.of(new PaymentEntity(
                     rst.getString(1),
                     rst.getString(2),
-                    rst.getBigDecimal(3),
-                    rst.getBigDecimal(4),
-                    rst.getBigDecimal(5),
+                    rst.getDouble(3),
+                    rst.getDouble(4),
+                    rst.getDouble(5),
                     rst.getString(6),
                     rst.getString(7),
-                    rst.getDate(8)
+                    rst.getString(8)
 
             ));
         }
