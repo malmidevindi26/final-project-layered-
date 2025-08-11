@@ -7,6 +7,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.project.layered.bo.BOFactory;
+import lk.ijse.project.layered.bo.BOType;
+import lk.ijse.project.layered.bo.custom.StoreManagementBO;
 import lk.ijse.project.layered.dto.StoreManagementDto;
 import lk.ijse.project.layered.dto.tm.StoreTM;
 import lk.ijse.project.layered.model.OrderModel;
@@ -41,6 +44,7 @@ public class StoreManagementController implements Initializable {
 
     private final StoreManagementModel storeManagementModel = new StoreManagementModel();
     private final OrderModel orderModel = new OrderModel();
+    private final StoreManagementBO storeManagementBO = BOFactory.getInstance().getBO(BOType.STOREMANAGEMENT);
 
     public TableView <StoreTM> tblStore;
     public TableColumn <StoreTM, String> colStId;
@@ -93,7 +97,7 @@ public class StoreManagementController implements Initializable {
             StoreManagementDto storeManagementDto = new StoreManagementDto(storeId, orderId, capacity);
 
             try {
-                boolean isSave = storeManagementModel.saveStore(storeManagementDto);
+                boolean isSave = storeManagementBO.saveStore(storeManagementDto);
                 if (isSave) {
                     resetPage();
 
@@ -109,7 +113,7 @@ public class StoreManagementController implements Initializable {
     }
 
     private void loadNextId() throws SQLException, ClassNotFoundException {
-        String nextId = storeManagementModel.getNextId();
+        String nextId = storeManagementBO.getNextId();
         lblStId.setText(nextId);
     }
     private void resetPage() throws SQLException, ClassNotFoundException {
@@ -141,7 +145,7 @@ public class StoreManagementController implements Initializable {
            StoreManagementDto storeManagementDto = new StoreManagementDto(storeId, orderId, capacity);
 
            try {
-               boolean isUpdate = storeManagementModel.updateStore(storeManagementDto);
+               boolean isUpdate = storeManagementBO.updateStore(storeManagementDto);
                if (isUpdate) {
                    resetPage();
 
@@ -162,7 +166,7 @@ public class StoreManagementController implements Initializable {
         if(response.isPresent() && response.get() == ButtonType.YES){
             try {
                 String storeId = lblStId.getText();
-                boolean isDelete = storeManagementModel.deleteStore(storeId);
+                boolean isDelete = storeManagementBO.deleteStore(storeId);
                 if (isDelete) {
                     resetPage();
                     new Alert(Alert.AlertType.INFORMATION, "store Deleted").show();
@@ -190,6 +194,7 @@ public class StoreManagementController implements Initializable {
 
         }
     }
+
     private void loadOrderId() throws SQLException, ClassNotFoundException {
         ArrayList<String> list = orderModel.getAllOrderIds();
         ObservableList<String> orderIds = FXCollections.observableArrayList();

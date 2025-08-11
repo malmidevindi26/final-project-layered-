@@ -1,6 +1,7 @@
 package lk.ijse.project.layered.dao.custom.impl;
 import lk.ijse.project.layered.dao.custom.OrderItemDAO;
 import lk.ijse.project.layered.entity.OrderEntity;
+import lk.ijse.project.layered.entity.OrderItemEntity;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.Optional;
 
 public class OrderItemDAOImpl implements OrderItemDAO {
     @Override
-    public List<OrderEntity> getAll() throws SQLException {
+    public List<OrderItemEntity> getAll() throws SQLException {
         return List.of();
     }
 
@@ -18,12 +19,12 @@ public class OrderItemDAOImpl implements OrderItemDAO {
     }
 
     @Override
-    public boolean save(OrderEntity orderEntity) throws SQLException {
+    public boolean save(OrderItemEntity orderEntity) throws SQLException {
         return false;
     }
 
     @Override
-    public boolean update(OrderEntity orderEntity) throws SQLException {
+    public boolean update(OrderItemEntity orderEntity) throws SQLException {
         return false;
     }
 
@@ -38,7 +39,7 @@ public class OrderItemDAOImpl implements OrderItemDAO {
     }
 
     @Override
-    public Optional<OrderEntity> findById(String id) throws SQLException {
+    public Optional<OrderItemEntity> findById(String id) throws SQLException {
         return Optional.empty();
     }
 }

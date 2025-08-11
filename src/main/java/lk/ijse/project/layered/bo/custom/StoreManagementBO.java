@@ -12,11 +12,11 @@ import java.util.List;
 public interface StoreManagementBO extends SuperBO {
     List<StoreManagementDto> getAllStores() throws SQLException, ClassNotFoundException;
 
-    void saveStore(StoreManagementDto dto) throws Exception, DuplicateException;
+    boolean saveStore(StoreManagementDto dto) throws Exception, DuplicateException;
 
-    void updateStore(StoreManagementDto dto) throws SQLException, ClassNotFoundException;
+    boolean updateStore(StoreManagementDto dto) throws SQLException, ClassNotFoundException;
 
     boolean deleteStore(String id) throws Exception, InUseException;
 
-    String getNextId();
+    String getNextId() throws SQLException, ClassNotFoundException;
 }

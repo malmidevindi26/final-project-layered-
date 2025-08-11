@@ -11,6 +11,6 @@ import java.math.BigDecimal;
 public class OrderItemEntity {
     private String itemId;
     private String orderId;
-    private BigDecimal qty;
-    private BigDecimal price;
+    private double qty;
+    private double price;
 }

@@ -189,11 +189,12 @@ public class PaymentController implements Initializable {
            // penaltyId = penaltyModel.getNextId();
             try {
                String penaltyId = penaltyBO.getNextId();
+        ///////////////////////////////////////////////////////////////////
                 String storeId = storeModel.getStoreId(orderId);
-
+        ///////////////////////////////////////////////////////////////////        ///////
                 PenaltyDto penaltyDto = new PenaltyDto(penaltyId,orderId,storeId,penaltyMount,date);
 
-                boolean isPenaltySaved = penaltyModel.savePenalty(penaltyDto);
+                boolean isPenaltySaved = penaltyBO.savePenalty(penaltyDto);
 
                 if (!isPenaltySaved) {
                     new Alert(Alert.AlertType.ERROR,"Failed to save penalty").show();
@@ -201,7 +202,7 @@ public class PaymentController implements Initializable {
                 }
 
                 PaymentDto paymentDto = new PaymentDto(paymentId,orderId,promotionAmount,penaltyMount,amount,method,status,date);
-                boolean isSave = paymentModel.savePayment(paymentDto);
+                boolean isSave = paymentBO.savePayment(paymentDto);
                 System.out.println("Saving payment with ID: " + paymentId);
 
                 if (isSave) {
@@ -239,7 +240,9 @@ public class PaymentController implements Initializable {
            String date = txtDate.getText();
 
            try {
+           //////////////////////////////////////////////////////////////////////////////////////
                String penaltyId =penaltyModel.getPenaltyIdByOrderIdAndDate(orderId, date);
+           //////////////////////////////////////////////////////////////////////////////////////
                if (penaltyId == null) {
                    new Alert(Alert.AlertType.ERROR, "Penalty ID not found for this order and date").show();
                    return;
@@ -248,7 +251,7 @@ public class PaymentController implements Initializable {
                String storeId = storeModel.getStoreId(orderId);
 
                PenaltyDto penaltyDto = new PenaltyDto(penaltyId,orderId,storeId,penaltyAmount,date);
-               boolean isPenaltyUpdated = penaltyModel.updatePenalty(penaltyDto);
+               boolean isPenaltyUpdated = penaltyBO.updatePenalty(penaltyDto);
                if (!isPenaltyUpdated) {
                    new Alert(Alert.AlertType.ERROR,"Failed to update penalty").show();
                    return;
@@ -256,7 +259,7 @@ public class PaymentController implements Initializable {
 
                PaymentDto paymentDto = new PaymentDto(paymentId,orderId,promotionAmount,penaltyAmount,amount,method,status,date);
 
-               boolean isUpdate = paymentModel.updatePayment(paymentDto);
+               boolean isUpdate = paymentBO.updatePayment(paymentDto);
                if (isUpdate) {
                    resetPage();
                    new Alert(Alert.AlertType.INFORMATION, "Payment updated").show();
@@ -312,6 +315,7 @@ public class PaymentController implements Initializable {
         }
 
     }
+
     private void resetPage() throws SQLException, ClassNotFoundException {
         loadNextId();
         loadTableData();
@@ -331,6 +335,7 @@ public class PaymentController implements Initializable {
         lblService.setText("");
         lblItem.setText("");
     }
+
     private void loadOrderIds() throws SQLException, ClassNotFoundException {
         ArrayList<String> list = orderModel.getAllOrderIds();
         ObservableList<String> orderIds = FXCollections.observableArrayList();

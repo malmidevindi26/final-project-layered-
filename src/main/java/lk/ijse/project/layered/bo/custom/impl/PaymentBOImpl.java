@@ -33,7 +33,7 @@ public class PaymentBOImpl implements PaymentBO {
     }
 
     @Override
-    public void savePayment(PaymentDto dto) throws Exception, DuplicateException {
+    public boolean savePayment(PaymentDto dto) throws Exception, DuplicateException {
 
         Optional<PaymentEntity> optionaPayment = paymentDAO.findById(dto.getPaymentId());
         if (optionaPayment.isPresent()) {
@@ -43,10 +43,12 @@ public class PaymentBOImpl implements PaymentBO {
         PaymentEntity paymentEntity = converter.getPayment(dto);
 
         boolean save = paymentDAO.save(paymentEntity);
+        return save;
+
     }
 
     @Override
-    public void updatePayment(PaymentDto dto) throws SQLException, ClassNotFoundException {
+    public boolean updatePayment(PaymentDto dto) throws SQLException, ClassNotFoundException {
 
         Optional<PaymentEntity> optionalPayment = paymentDAO.findById(dto.getPaymentId());
         if(optionalPayment.isEmpty()){
@@ -54,7 +56,7 @@ public class PaymentBOImpl implements PaymentBO {
         }
 
         PaymentEntity paymentEntity = converter.getPayment(dto);
-        paymentDAO.update(paymentEntity);
+        return paymentDAO.update(paymentEntity);
 
     }
 

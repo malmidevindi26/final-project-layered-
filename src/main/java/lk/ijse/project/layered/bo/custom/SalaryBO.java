@@ -12,11 +12,11 @@ import java.util.List;
 public interface SalaryBO extends SuperBO {
     List<SalaryDto> getAllSalaries() throws SQLException, ClassNotFoundException;
 
-    void saveSalary(SalaryDto dto) throws Exception, DuplicateException;
+    boolean saveSalary(SalaryDto dto) throws Exception, DuplicateException;
 
-    void updateSalary(SalaryDto dto) throws SQLException, ClassNotFoundException;
+    boolean updateSalary(SalaryDto dto) throws SQLException, ClassNotFoundException;
 
     boolean deleteSalary(String id) throws Exception, InUseException;
 
-    String getNextId();
+    String getNextId() throws SQLException, ClassNotFoundException;
 }

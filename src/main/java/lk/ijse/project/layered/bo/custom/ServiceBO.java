@@ -12,11 +12,11 @@ import java.util.List;
 public interface ServiceBO extends SuperBO {
     List<ServiceDto> getAllServices() throws SQLException, ClassNotFoundException;
 
-    void saveService(ServiceDto dto) throws Exception, DuplicateException;
+    boolean saveService(ServiceDto dto) throws Exception, DuplicateException;
 
-    void updateService(ServiceDto dto) throws SQLException, ClassNotFoundException;
+    boolean updateService(ServiceDto dto) throws SQLException, ClassNotFoundException;
 
     boolean deleteService(String id) throws Exception, InUseException;
 
-    String getNextId();
+    String getNextId() throws SQLException, ClassNotFoundException;
 }

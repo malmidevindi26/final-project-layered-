@@ -11,5 +11,5 @@ import java.util.Date;
 public class ItemEntity {
      private String orderId;
      private String customerId;
-     private Date date;
+     private String date;
 }

@@ -12,11 +12,11 @@ import java.util.List;
 public interface PromotionBO extends SuperBO {
     List<PromotionDto> getAllPromotions() throws SQLException, ClassNotFoundException;
 
-    void savePromotion(PromotionDto dto) throws Exception, DuplicateException;
+    boolean savePromotion(PromotionDto dto) throws Exception, DuplicateException;
 
-    void updatePromotion(PromotionDto dto) throws SQLException, ClassNotFoundException;
+    boolean updatePromotion(PromotionDto dto) throws SQLException, ClassNotFoundException;
 
     boolean deletePromotion(String id) throws Exception, InUseException;
 
-    String getNextId();
+    String getNextId() throws SQLException, ClassNotFoundException;
 }

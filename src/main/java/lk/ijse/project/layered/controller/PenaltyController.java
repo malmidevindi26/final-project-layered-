@@ -7,6 +7,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.project.layered.bo.BOFactory;
+import lk.ijse.project.layered.bo.BOType;
+import lk.ijse.project.layered.bo.custom.OrderBO;
+import lk.ijse.project.layered.bo.custom.PenaltyBO;
+import lk.ijse.project.layered.bo.custom.StoreManagementBO;
 import lk.ijse.project.layered.dto.PenaltyDto;
 import lk.ijse.project.layered.dto.tm.PenaltyTm;
 import lk.ijse.project.layered.model.OrderModel;
@@ -28,6 +33,10 @@ public class PenaltyController implements Initializable {
     private final PenaltyModel penaltyModel=new PenaltyModel();
     private final OrderModel orderModel=new OrderModel();
     private final StoreManagementModel storeManagementModel=new StoreManagementModel();
+
+    private final PenaltyBO penaltyBO = BOFactory.getInstance().getBO(BOType.PENALTY);
+    private final OrderBO orderBO = BOFactory.getInstance().getBO(BOType.ORDER);
+    private final StoreManagementBO storeManagementBO = BOFactory.getInstance().getBO(BOType.STOREMANAGEMENT);
 
     public TableView <PenaltyTm> tblPenalty;
     public TableColumn <PenaltyTm, String> colPenaltyId;
@@ -112,7 +121,7 @@ public class PenaltyController implements Initializable {
 
             PenaltyDto penaltyDto = new PenaltyDto(penaltyId, orderId, storeId, amount, reason);
             try {
-                boolean isSave =  penaltyModel.savePenalty(penaltyDto);
+                boolean isSave =  penaltyBO.savePenalty(penaltyDto);
                 if(isSave){
                     resetPage();
                     new Alert(Alert.AlertType.INFORMATION,"Penalty Saved").show();
@@ -127,7 +136,7 @@ public class PenaltyController implements Initializable {
     }
 
     private void loadNextId() throws SQLException, ClassNotFoundException {
-        String nextId = penaltyModel.getNextId();
+        String nextId = penaltyBO.getNextId();
         lblPenaltyId.setText(nextId);
     }
 
@@ -146,7 +155,7 @@ public class PenaltyController implements Initializable {
 
            PenaltyDto penaltyDto = new PenaltyDto(penaltyId, orderId, storeId, amount, reason);
            try {
-               boolean isUpdate =  penaltyModel.updatePenalty(penaltyDto);
+               boolean isUpdate =  penaltyBO.updatePenalty(penaltyDto);
                if(isUpdate){
                    resetPage();
                    new Alert(Alert.AlertType.INFORMATION,"Penalty updated").show();
@@ -167,7 +176,7 @@ public class PenaltyController implements Initializable {
         if(response.isPresent() && response.get() == ButtonType.YES){
             try {
                 String penaltyId = lblPenaltyId.getText();
-                boolean isDelete = penaltyModel.deletePenalty(penaltyId);
+                boolean isDelete = penaltyBO.deletePenalty(penaltyId);
                 if (isDelete) {
                     resetPage();
                     new Alert(Alert.AlertType.INFORMATION, "penalty Deleted").show();
@@ -211,6 +220,7 @@ public class PenaltyController implements Initializable {
         txtAmount.setText("");
         txtReason.setText("");
     }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void loadOrderIds() throws SQLException, ClassNotFoundException {
         ArrayList<String> list = orderModel.getAllOrderIds();
         ObservableList<String> orderIds = FXCollections.observableArrayList();
@@ -223,4 +233,5 @@ public class PenaltyController implements Initializable {
         storeIds.addAll(list);
         cmStoreId.setItems(storeIds);
     }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

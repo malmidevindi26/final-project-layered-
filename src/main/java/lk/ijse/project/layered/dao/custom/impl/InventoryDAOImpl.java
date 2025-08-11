@@ -93,7 +93,7 @@ public class InventoryDAOImpl implements InventoryDAO {
 
     @Override
     public Optional<InventoryEntity> findById(String id) throws SQLException, ClassNotFoundException {
-        ResultSet rst = SQLUtil.execute("select * from Customer where customer_id = ?", id);
+        ResultSet rst = SQLUtil.execute("select * from Inventory where item_id = ?", id);
         if(rst.next()){
             return Optional.of(new InventoryEntity(
                     rst.getString(1),
@@ -106,5 +106,10 @@ public class InventoryDAOImpl implements InventoryDAO {
             ));
         }
         return Optional.empty();
+    }
+
+    @Override
+    public boolean reduceQuantity(String id, int qty) throws SQLException, ClassNotFoundException {
+        return SQLUtil.execute("update Inventory set quantity = quantity - ? where item_id = ?", qty, id);
     }
 }

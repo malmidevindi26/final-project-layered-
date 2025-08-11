@@ -10,6 +10,7 @@ import javafx.scene.input.MouseEvent;
 import lk.ijse.project.layered.bo.BOFactory;
 import lk.ijse.project.layered.bo.BOType;
 import lk.ijse.project.layered.bo.custom.OrderBO;
+import lk.ijse.project.layered.bo.custom.StoreManagementBO;
 import lk.ijse.project.layered.db.DBConnection;
 import lk.ijse.project.layered.dto.OrderDto;
 import lk.ijse.project.layered.dto.OrderServiceDto;
@@ -40,6 +41,7 @@ public class OrderController implements Initializable {
     private final ServiceModel serviceModel = new ServiceModel();
     private  final StoreManagementModel storeManagementModel = new StoreManagementModel();
     private final OrderBO orderBO = BOFactory.getInstance().getBO(BOType.ORDER);
+    private final StoreManagementBO storeManagementBO = BOFactory.getInstance().getBO(BOType.STOREMANAGEMENT);
 
     public TableView <OrderTM> tblOrder;
     public TableColumn <OrderTM, String> colOrId;
@@ -144,15 +146,16 @@ public class OrderController implements Initializable {
 
 
             try {
-                boolean isSave = orderModel.saveOrder(orderDto);
+                boolean isSave = orderBO.saveOrder(orderDto);
+                /// ///////////////////////////////
                 if (isSave) {
                     OrderServiceDto orderServiceDto = new OrderServiceDto( orderId, serviceId);
                     boolean isOrderServiceSave = new OrderServiceModel().saveOrderService(orderServiceDto);
-
+                /// //////////////////////////////
                     if (isOrderServiceSave) {
-                        String storeId = StoreManagementModel.getNextId();
+                        String storeId = storeManagementBO.getNextId();
                         StoreManagementDto storeDto = new StoreManagementDto(storeId,orderId,capacity);
-                        boolean isStoreSave = storeManagementModel.saveStore(storeDto);
+                        boolean isStoreSave = storeManagementBO.saveStore(storeDto);
                         if (isStoreSave) {
                             resetPage();
                             new Alert(Alert.AlertType.INFORMATION, "Order , store and Order Service Saved").show();

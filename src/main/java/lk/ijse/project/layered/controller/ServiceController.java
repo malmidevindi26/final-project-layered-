@@ -7,6 +7,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.project.layered.bo.BOFactory;
+import lk.ijse.project.layered.bo.BOType;
+import lk.ijse.project.layered.bo.custom.ServiceBO;
 import lk.ijse.project.layered.dto.ServiceDto;
 import lk.ijse.project.layered.dto.tm.ServiceTM;
 import lk.ijse.project.layered.model.ServiceModel;
@@ -33,6 +36,8 @@ public class ServiceController implements Initializable {
     public Button btnDelete;
     public Button btnSave;
     public ComboBox <String>comName;
+
+    private final ServiceBO serviceBO = BOFactory.getInstance().getBO(BOType.SERVICE);
 
     private final String amountPattern = "^[0-9]+(\\.[0-9]{1,2})?$";
     private final String namePattern = "^[A-Za-z ]+$";
@@ -104,7 +109,7 @@ public class ServiceController implements Initializable {
             ServiceDto serviceDto = new ServiceDto(serviceId, name, price, desc);
 
             try {
-                boolean isSave = serviceModel.saveService(serviceDto);
+                boolean isSave = serviceBO.saveService(serviceDto);
                 if (isSave) {
                     resetPage();
                     new Alert(Alert.AlertType.INFORMATION, "Service saved successfully").show();
@@ -120,7 +125,7 @@ public class ServiceController implements Initializable {
     }
 
     private void loadNextId() throws SQLException, ClassNotFoundException {
-        String serviceId = serviceModel.getNextId();
+        String serviceId = serviceBO.getNextId();
         lblId.setText(serviceId);
     }
 
@@ -139,7 +144,7 @@ public class ServiceController implements Initializable {
             ServiceDto serviceDto = new ServiceDto(serviceId, name, price, desc);
 
             try {
-                boolean isUpdate = serviceModel.updateService(serviceDto);
+                boolean isUpdate = serviceBO.updateService(serviceDto);
                 if (isUpdate) {
                     resetPage();
                     new Alert(Alert.AlertType.INFORMATION, "Service updated successfully").show();
@@ -160,7 +165,7 @@ public class ServiceController implements Initializable {
         if(response.isPresent() && response.get() == ButtonType.YES){
             try {
                 String serviceId = lblId.getText();
-                boolean isDelete = serviceModel.deleteService(serviceId);
+                boolean isDelete = serviceBO.deleteService(serviceId);
                 if (isDelete) {
                     resetPage();
                     new Alert(Alert.AlertType.INFORMATION, "Service Deleted").show();
@@ -189,6 +194,7 @@ public class ServiceController implements Initializable {
         }
 
     }
+
     private void resetPage() throws SQLException, ClassNotFoundException {
         loadNextId();
         loadTableData();

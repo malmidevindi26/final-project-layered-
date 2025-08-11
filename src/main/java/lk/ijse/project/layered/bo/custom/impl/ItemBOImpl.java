@@ -1,4 +1,109 @@
 package lk.ijse.project.layered.bo.custom.impl;
 
-public class ItemBOImpl {
+import lk.ijse.project.layered.bo.custom.ItemBO;
+import lk.ijse.project.layered.bo.exception.NotFoundException;
+import lk.ijse.project.layered.dao.DAOFactory;
+import lk.ijse.project.layered.dao.DAOType;
+import lk.ijse.project.layered.dao.custom.*;
+import lk.ijse.project.layered.db.DBConnection;
+import lk.ijse.project.layered.dto.ItemDto;
+import lk.ijse.project.layered.dto.OrderDto;
+import lk.ijse.project.layered.dto.OrderItemDto;
+import lk.ijse.project.layered.entity.InventoryEntity;
+import lk.ijse.project.layered.entity.ItemEntity;
+import lk.ijse.project.layered.entity.OrderEntity;
+import lk.ijse.project.layered.entity.OrderItemEntity;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Optional;
+
+public class ItemBOImpl implements ItemBO {
+    private ItemDAO itemDAO = DAOFactory.getInstance().getDAO(DAOType.ITEM);
+
+    private OrderItemDAO orderItemDAO = DAOFactory.getInstance().getDAO(DAOType.ORDER_ITEM);
+
+    private InventoryDAO inventoryDAO = DAOFactory.getInstance().getDAO(DAOType.INVENTORY);
+
+    private OrderDAO orderDAO = DAOFactory.getInstance().getDAO(DAOType.ORDER);
+
+    private CustomerDAO customerDAO = DAOFactory.getInstance().getDAO(DAOType.CUSTOMER);
+
+    @Override
+    public boolean placeOrder(ItemDto dto) throws SQLException, ClassNotFoundException {
+        Connection connection = DBConnection.getInstance().getConnection();
+
+        try {
+            connection.setAutoCommit(false);
+
+            Optional<OrderEntity> optionalOrder = orderDAO.findById(dto.getOrderId());
+            if (optionalOrder.isEmpty()) {
+                throw new NotFoundException("Order not found");
+            }
+
+            ItemEntity itemEntity = new ItemEntity();
+            itemEntity.setOrderId(dto.getOrderId());
+            itemEntity.setDate(String.valueOf(dto.getDate()));
+
+            boolean isOrderSave = itemDAO.save(itemEntity);
+            if (isOrderSave) {
+                boolean isSuccess = saveDetailsAndUpdateItem(dto.getCartList());
+                if (isSuccess) {
+                    connection.commit();
+                    return true;
+                }
+            }
+            connection.rollback();
+            return false;
+        } catch (Exception e) {
+            connection.rollback();
+            return false;
+        } finally {
+            connection.setAutoCommit(true);
+        }
+
+    }
+
+    @Override
+    public String getNextId() throws SQLException, ClassNotFoundException {
+        String lastId = itemDAO.getLastId();
+        String tableChar = "OR";
+        if (lastId != null) {
+            String lastIdNumberString = lastId.substring(1);
+            int lastIdNumber = Integer.parseInt(lastIdNumberString);
+            int nextIdNumber = lastIdNumber + 1;
+            return String.format(tableChar + "%03d", nextIdNumber);
+        }
+        return tableChar + "001";
+    }
+
+    private boolean saveDetailsAndUpdateItem(List<OrderItemDto> detailsList) throws SQLException, ClassNotFoundException {
+        for (OrderItemDto detailsDTO : detailsList) {
+            OrderItemEntity orderItemEntity = new OrderItemEntity();
+            orderItemEntity.setItemId(detailsDTO.getItemId());
+            orderItemEntity.setOrderId(detailsDTO.getOrderId());
+            orderItemEntity.setQty(detailsDTO.getQty());
+            orderItemEntity.setPrice(detailsDTO.getPrice());
+
+            if (!orderItemDAO.save(orderItemEntity)) {
+                return false;
+            }
+
+            Optional<InventoryEntity> optionalInventory = inventoryDAO.findById(detailsDTO.getItemId());
+            if (optionalInventory.isEmpty()) {
+                throw new NotFoundException("Inventory not found");
+            }
+
+            boolean isInventoryUpdated = inventoryDAO.reduceQuantity(
+                    detailsDTO.getItemId(),
+                    (int) detailsDTO.getQty()
+            );
+            if (!isInventoryUpdated) {
+                return false;
+            }
+
+        }
+        return  true;
+    }
 }

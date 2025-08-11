@@ -7,6 +7,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.project.layered.bo.BOFactory;
+import lk.ijse.project.layered.bo.BOType;
+import lk.ijse.project.layered.bo.custom.UtilityExpenseBO;
 import lk.ijse.project.layered.dto.UtilityExpenseDto;
 import lk.ijse.project.layered.dto.tm.UtilityTM;
 import lk.ijse.project.layered.model.UtilityExpenseModel;
@@ -24,6 +27,7 @@ public class UtilityExpenseController implements Initializable {
     public TextField txtBillingDate;
 
     private final UtilityExpenseModel utilityExpenseModel = new UtilityExpenseModel();
+    private final UtilityExpenseBO utilityExpenseBO = BOFactory.getInstance().getBO(BOType.UTILITYEXPENSE);
 
     public TableView<UtilityTM> tblUtility;
     public TableColumn <UtilityTM,String> colId;
@@ -110,7 +114,7 @@ public class UtilityExpenseController implements Initializable {
             UtilityExpenseDto utilityExpenseDto = new UtilityExpenseDto(utilityId, type, amount, billDate);
 
             try{
-                boolean isSave = utilityExpenseModel.saveUtility(utilityExpenseDto);
+                boolean isSave = utilityExpenseBO.saveExpense(utilityExpenseDto);
                 if(isSave){
                     resetPage();
 
@@ -127,7 +131,7 @@ public class UtilityExpenseController implements Initializable {
     }
 
     private void loadNextId() throws SQLException, ClassNotFoundException {
-        String nextId = utilityExpenseModel.getNextId();
+        String nextId = utilityExpenseBO.getNextId();
         lblId.setText(nextId);
     }
 
@@ -146,7 +150,7 @@ public class UtilityExpenseController implements Initializable {
            UtilityExpenseDto utilityExpenseDto = new UtilityExpenseDto(utilityId, type, amount, billDate);
 
            try{
-               boolean isUpdate = utilityExpenseModel.updateUtility(utilityExpenseDto);
+               boolean isUpdate = utilityExpenseBO.updateExpense(utilityExpenseDto);
                if(isUpdate){
                    resetPage();
 
@@ -168,7 +172,7 @@ public class UtilityExpenseController implements Initializable {
         if(response.isPresent() && response.get() == ButtonType.YES){
             try {
                 String utilityId = lblId.getText();
-                boolean isDelete = utilityExpenseModel.deleteUtilityExpense(utilityId);
+                boolean isDelete = utilityExpenseBO.deleteExpense(utilityId);
                 if (isDelete) {
                     resetPage();
                     new Alert(Alert.AlertType.INFORMATION, "Utility  Deleted").show();

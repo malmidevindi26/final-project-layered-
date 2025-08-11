@@ -12,11 +12,11 @@ import java.util.List;
 public interface UtilityExpenseBO extends SuperBO {
     List<UtilityExpenseDto> getAllExpenses() throws SQLException, ClassNotFoundException;
 
-    void saveExpense(UtilityExpenseDto dto) throws Exception, DuplicateException;
+    boolean saveExpense(UtilityExpenseDto dto) throws Exception, DuplicateException;
 
-    void updateExpense(UtilityExpenseDto dto) throws SQLException, ClassNotFoundException;
+    boolean updateExpense(UtilityExpenseDto dto) throws SQLException, ClassNotFoundException;
 
     boolean deleteExpense(String id) throws Exception, InUseException;
 
-    String getNextId();
+    String getNextId() throws SQLException, ClassNotFoundException;
 }

@@ -6,6 +6,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.project.layered.bo.BOFactory;
+import lk.ijse.project.layered.bo.BOType;
+import lk.ijse.project.layered.bo.custom.ItemBO;
 import lk.ijse.project.layered.dto.InventoryDto;
 import lk.ijse.project.layered.dto.ItemDto;
 import lk.ijse.project.layered.dto.OrderDto;
@@ -48,6 +51,8 @@ public class ItemController implements Initializable {
     private final ItemModel itemModel = new ItemModel();
     private final InventoryModel inventoryModel = new InventoryModel();
     private final ObservableList<CartTM> cartData = FXCollections.observableArrayList();
+
+    private final ItemBO itemBO = BOFactory.getInstance().getBO(BOType.ITEM);
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
     }
@@ -176,7 +181,8 @@ public class ItemController implements Initializable {
                 cartList
         );
         try {
-            boolean isPlaced = itemModel.placeOrder(itemDto);
+           // boolean isPlaced = itemModel.placeOrder(itemDto);
+            boolean isPlaced = itemBO.placeOrder(itemDto);
 
             if(isPlaced){
                 new Alert(Alert.AlertType.INFORMATION, "Order placed successfully!").show();
@@ -217,6 +223,7 @@ public class ItemController implements Initializable {
     private void loadOrderIds() throws SQLException, ClassNotFoundException {
         ArrayList<String> customerIdsList = orderModel.getAllOrderIds();
         ObservableList<String> customerIds = FXCollections.observableArrayList(customerIdsList);
+        customerIds.addAll(customerIdsList);
        // System.out.println(customerIdsList.getFirst());
         cmOrderId.setItems(customerIds);
 

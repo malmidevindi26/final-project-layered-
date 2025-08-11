@@ -7,6 +7,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.project.layered.bo.BOFactory;
+import lk.ijse.project.layered.bo.BOType;
+import lk.ijse.project.layered.bo.custom.PromotionBO;
 import lk.ijse.project.layered.dto.PromotionDto;
 import lk.ijse.project.layered.dto.tm.PromotionTM;
 import lk.ijse.project.layered.model.PromotionModel;
@@ -39,6 +42,8 @@ public class PromotionController implements Initializable {
     private final String datePattern = "^\\d{4}-\\d{2}-\\d{2}$";
     private final String discountPattern = "^[0-9]+(\\.[0-9]{1,2})?$";
     public Button btbReport;
+
+    private final PromotionBO promotionBO = BOFactory.getInstance().getBO(BOType.PROMOTION);
 
     private boolean validateInput() {
         boolean isValid = true;
@@ -119,7 +124,7 @@ public class PromotionController implements Initializable {
             PromotionDto promotionDto = new PromotionDto(promotionId, code, dis, date, desc);
 
             try {
-                boolean isSave = promotionModel.savePromotion(promotionDto);
+                boolean isSave = promotionBO.savePromotion(promotionDto);
                 if (isSave) {
                     resetPage();
                     new Alert(Alert.AlertType.INFORMATION, "Promotion saved successfully").show();
@@ -135,7 +140,7 @@ public class PromotionController implements Initializable {
     }
 
     private void loadNextId() throws SQLException, ClassNotFoundException {
-        String nextId = promotionModel.getNextId();
+        String nextId = promotionBO.getNextId();
         lblId.setText(nextId);
     }
 
@@ -155,7 +160,7 @@ public class PromotionController implements Initializable {
             PromotionDto promotionDto = new PromotionDto(promotionId, code, dis, date, desc);
 
             try {
-                boolean isUpdate = promotionModel.updatePromotion(promotionDto);
+                boolean isUpdate = promotionBO.updatePromotion(promotionDto);
                 if (isUpdate) {
                     resetPage();
                     new Alert(Alert.AlertType.INFORMATION, "Promotion updated successfully").show();
@@ -177,7 +182,7 @@ public class PromotionController implements Initializable {
         if(response.isPresent() && response.get() == ButtonType.YES){
             try {
                 String promoId = lblId.getText();
-                boolean isDelete = promotionModel.deletePromotion(promoId);
+                boolean isDelete = promotionBO.deletePromotion(promoId);
                 if (isDelete) {
                     resetPage();
                     new Alert(Alert.AlertType.INFORMATION, "promotion Deleted").show();

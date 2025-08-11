@@ -7,6 +7,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.project.layered.bo.BOFactory;
+import lk.ijse.project.layered.bo.BOType;
+import lk.ijse.project.layered.bo.custom.SupplierBO;
 import lk.ijse.project.layered.dto.SupplierDto;
 import lk.ijse.project.layered.dto.tm.SupplierTM;
 import lk.ijse.project.layered.model.InventoryModel;
@@ -29,6 +32,8 @@ public class SupplierController implements Initializable {
 
     private final SupplierModel supplierModel = new SupplierModel();
     private final InventoryModel inventoryModel = new InventoryModel();
+    private final SupplierBO supplierBO = BOFactory.getInstance().getBO(BOType.SUPPLIER);
+
 
     public TableView <SupplierTM> tblSupplier;
     public TableColumn <SupplierTM, String> colSupId;
@@ -145,7 +150,7 @@ public class SupplierController implements Initializable {
            SupplierDto supplierDto = new SupplierDto(supplierId, itemId, name, address, contact, amount, date);
 
            try {
-               boolean isSave = supplierModel.saveSupplier(supplierDto);
+               boolean isSave = supplierBO.saveSupplier(supplierDto);
                if (isSave) {
                    resetPage();
                    new Alert(Alert.AlertType.INFORMATION, "Supplier has been saved successfully").show();
@@ -160,7 +165,7 @@ public class SupplierController implements Initializable {
     }
 
     private void loadNextId() throws SQLException, ClassNotFoundException {
-        String nextId = supplierModel.getNextId();
+        String nextId = supplierBO.getNextId();
         lblSupId.setText(nextId);
     }
 
@@ -182,7 +187,7 @@ public class SupplierController implements Initializable {
             SupplierDto supplierDto = new SupplierDto(supplierId, itemId, name, address, contact, amount, date);
 
             try {
-                boolean isUpdate = supplierModel.updateSupplier(supplierDto);
+                boolean isUpdate = supplierBO.updateSupplier(supplierDto);
                 if (isUpdate) {
                     resetPage();
                     new Alert(Alert.AlertType.INFORMATION, "Supplier has been updated successfully").show();
@@ -203,7 +208,7 @@ public class SupplierController implements Initializable {
         if(response.isPresent() && response.get() == ButtonType.YES){
             try {
                 String supplierId = lblSupId.getText();
-                boolean isDelete = supplierModel.deleteSupplier(supplierId);
+                boolean isDelete = supplierBO.deleteSupplier(supplierId);
                 if (isDelete) {
                     resetPage();
                     new Alert(Alert.AlertType.INFORMATION, "Supplier Deleted").show();
@@ -234,6 +239,7 @@ public class SupplierController implements Initializable {
             btnSave.setDisable(true);
         }
     }
+
     private void resetPage() throws SQLException, ClassNotFoundException {
         loadNextId();
         loadTableData();
@@ -250,6 +256,7 @@ public class SupplierController implements Initializable {
         txtAmount.setText("");
         txtDate.setText("");
     }
+
     private void loadSupplierIds() throws SQLException, ClassNotFoundException {
         ArrayList<String> list = inventoryModel.getAllSupplierIds();
         ObservableList<String> supplierIds = FXCollections.observableArrayList();

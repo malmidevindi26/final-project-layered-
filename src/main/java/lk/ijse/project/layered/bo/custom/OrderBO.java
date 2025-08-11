@@ -12,9 +12,9 @@ import java.util.List;
 public interface OrderBO extends SuperBO {
     List<OrderDto> getAllOrders() throws SQLException, ClassNotFoundException;
 
-    void saveOrder(OrderDto dto) throws Exception, DuplicateException;
+    boolean saveOrder(OrderDto dto) throws Exception, DuplicateException;
 
-    void updateOrder(OrderDto dto) throws SQLException, ClassNotFoundException;
+    boolean updateOrder(OrderDto dto) throws SQLException, ClassNotFoundException;
 
     boolean deleteOrder(String id) throws Exception, InUseException;
 

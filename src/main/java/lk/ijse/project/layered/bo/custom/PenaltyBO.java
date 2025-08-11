@@ -12,11 +12,11 @@ import java.util.List;
 public interface PenaltyBO extends SuperBO {
     List<PenaltyDto> getAllPenalties() throws SQLException, ClassNotFoundException;
 
-    void savePenalty(PenaltyDto dto) throws Exception, DuplicateException;
+    boolean savePenalty(PenaltyDto dto) throws Exception, DuplicateException;
 
-    void updatePenalty(PenaltyDto dto) throws SQLException, ClassNotFoundException;
+    boolean updatePenalty(PenaltyDto dto) throws SQLException, ClassNotFoundException;
 
     boolean deletePenalty(String id) throws Exception, InUseException;
 
-    String getNextId();
+    String getNextId() throws SQLException, ClassNotFoundException;
 }

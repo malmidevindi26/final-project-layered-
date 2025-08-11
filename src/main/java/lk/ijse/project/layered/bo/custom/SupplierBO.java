@@ -12,11 +12,11 @@ import java.util.List;
 public interface SupplierBO extends SuperBO {
     List<SupplierDto> getAllSuppliers() throws SQLException, ClassNotFoundException;
 
-    void saveSupplier(SupplierDto dto) throws Exception, DuplicateException;
+    boolean saveSupplier(SupplierDto dto) throws Exception, DuplicateException;
 
-    void updateSupplier(SupplierDto dto) throws SQLException, ClassNotFoundException;
+    boolean updateSupplier(SupplierDto dto) throws SQLException, ClassNotFoundException;
 
     boolean deleteSupplier(String id) throws Exception, InUseException;
 
-    String getNextId();
+    String getNextId() throws SQLException, ClassNotFoundException;
 }

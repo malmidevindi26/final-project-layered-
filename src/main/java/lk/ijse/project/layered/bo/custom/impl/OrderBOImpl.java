@@ -33,7 +33,7 @@ public class OrderBOImpl implements OrderBO {
     }
 
     @Override
-    public void saveOrder(OrderDto dto) throws Exception, DuplicateException {
+    public boolean saveOrder(OrderDto dto) throws Exception, DuplicateException {
 
         Optional<OrderEntity> optionalOrder = orderDAO.findById(dto.getOrderId());
         if (optionalOrder.isPresent()) {
@@ -43,10 +43,11 @@ public class OrderBOImpl implements OrderBO {
         OrderEntity orderEntity = converter.getOrder(dto);
 
         boolean save = orderDAO.save(orderEntity);
+        return save;
     }
 
     @Override
-    public void updateOrder(OrderDto dto) throws SQLException, ClassNotFoundException {
+    public boolean updateOrder(OrderDto dto) throws SQLException, ClassNotFoundException {
 
         Optional<OrderEntity> optionalOrder = orderDAO.findById(dto.getOrderId());
         if(optionalOrder.isEmpty()){
@@ -54,7 +55,7 @@ public class OrderBOImpl implements OrderBO {
         }
 
         OrderEntity orderEntity = converter.getOrder(dto);
-        orderDAO.update(orderEntity);
+         return orderDAO.update(orderEntity);
     }
 
     @Override

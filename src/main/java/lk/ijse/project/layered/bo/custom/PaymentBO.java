@@ -12,9 +12,9 @@ import java.util.List;
 public interface PaymentBO extends SuperBO {
     List<PaymentDto> getAllPayments() throws SQLException, ClassNotFoundException;
 
-    void savePayment(PaymentDto dto) throws Exception, DuplicateException;
+    boolean savePayment(PaymentDto dto) throws Exception, DuplicateException;
 
-    void updatePayment(PaymentDto dto) throws SQLException, ClassNotFoundException;
+    boolean updatePayment(PaymentDto dto) throws SQLException, ClassNotFoundException;
 
     boolean deletePayment(String id) throws Exception, InUseException;
 
