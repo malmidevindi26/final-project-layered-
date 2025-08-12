@@ -76,11 +76,33 @@ public class StoreManagementBOImpl implements StoreManagementBO {
         String lastId = storeManagementDAO.getLastId();
         String tableChar = "ST";
         if (lastId != null) {
-            String lastIdNumberString = lastId.substring(1);
+            String lastIdNumberString = lastId.substring(2);
             int lastIdNumber = Integer.parseInt(lastIdNumberString);
             int nextIdNumber = lastIdNumber + 1;
             return String.format(tableChar + "%03d", nextIdNumber);
         }
         return tableChar + "001";
     }
+
+    @Override
+    public boolean updateOrInsertStore(StoreManagementDto entity) throws SQLException, ClassNotFoundException {
+        StoreManagementEntity storeManagementEntity = converter.getStoreManagement(entity);
+        return storeManagementDAO.updateOrInsertStore(storeManagementEntity);
+    }
+
+    @Override
+    public String getStoreId(String orderId) throws SQLException, ClassNotFoundException {
+        return storeManagementDAO.getStoreId(orderId);
+    }
+
+    @Override
+    public List<String> getAllStoreIds() throws SQLException, ClassNotFoundException {
+        return storeManagementDAO.getAllIds();
+    }
+
+
+//    @Override
+//    public boolean updateOrInsertStore(StoreManagementEntity entity) throws SQLException, ClassNotFoundException {
+//        return storeManagementDAO.updateOrInsertStore(entity);
+//    }
 }

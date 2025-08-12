@@ -19,4 +19,6 @@ public interface PenaltyBO extends SuperBO {
     boolean deletePenalty(String id) throws Exception, InUseException;
 
     String getNextId() throws SQLException, ClassNotFoundException;
+
+    String getPenaltyIdByOrderIdAndDate(String orderId, String date) throws SQLException, ClassNotFoundException;
 }

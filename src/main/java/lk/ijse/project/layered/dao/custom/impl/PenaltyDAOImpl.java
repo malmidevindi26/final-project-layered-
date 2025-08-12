@@ -94,4 +94,13 @@ public class PenaltyDAOImpl implements PenaltyDAO {
         }
         return Optional.empty();
     }
+
+    @Override
+    public String getPenaltyIdByOrderIdAndDate(String orderId, String date) throws SQLException, ClassNotFoundException {
+        return SQLUtil.execute(
+                "SELECT penalty_id FROM Penalty WHERE order_id = ? AND reason = ?",
+                orderId,
+                date
+        );
+    }
 }

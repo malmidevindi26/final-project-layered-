@@ -129,17 +129,26 @@ public class CustomerController implements Initializable {
     }
 
     private void loadTableData() throws SQLException, ClassNotFoundException {
-        ArrayList<CustomerDto> customerDtoArrayList = customerModel.getAllCustomers();
-        ObservableList<CustomerTM> list = FXCollections.observableArrayList();
-
-        for (CustomerDto customerDto : customerDtoArrayList) {
-            CustomerTM customerTM = new CustomerTM(
-                    customerDto.getCustomerId(), customerDto.getName(),
-                    customerDto.getAddress(), customerDto.getContact(),customerDto.getEmail()
-            );
-            list.add(customerTM);
-        }
-        tblCustomer.setItems(list);
+//        ArrayList<CustomerDto> customerDtoArrayList = customerModel.getAllCustomers();
+//        ObservableList<CustomerTM> list = FXCollections.observableArrayList();
+//
+//        for (CustomerDto customerDto : customerDtoArrayList) {
+//            CustomerTM customerTM = new CustomerTM(
+//                    customerDto.getCustomerId(), customerDto.getName(),
+//                    customerDto.getAddress(), customerDto.getContact(),customerDto.getEmail()
+//            );
+//            list.add(customerTM);
+//        }
+//        tblCustomer.setItems(list);
+        tblCustomer.setItems(FXCollections.observableArrayList(
+                customerBO.getAllCustomers().stream().map(customerDto -> new CustomerTM(
+                        customerDto.getCustomerId(),
+                        customerDto.getName(),
+                        customerDto.getAddress(),
+                        customerDto.getContact(),
+                        customerDto.getEmail()
+                )).toList()
+        ));
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {

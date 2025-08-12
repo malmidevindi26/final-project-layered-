@@ -27,23 +27,23 @@ public class CustomerModel {
         );
     }
 
-    public String getNextId() throws SQLException, ClassNotFoundException {
-
-        ResultSet rst = CrudUtil.execute("select customer_id from Customer order by customer_id desc limit 1");
-
-        char tableChar = 'C';
-
-        if(rst.next()){
-            String lastId = rst.getString(1);
-            String lastIdNumberString = lastId.substring(1);
-            int lastIdNumber = Integer.parseInt(lastIdNumberString);
-            int nextIdNumber = lastIdNumber + 1;
-            String nextIdString = String.format(tableChar + "%03d", nextIdNumber);
-            return nextIdString;
-
-        }
-        return "C001";
-    }
+//    public String getNextId() throws SQLException, ClassNotFoundException {
+//
+//        ResultSet rst = CrudUtil.execute("select customer_id from Customer order by customer_id desc limit 1");
+//
+//        char tableChar = 'C';
+//
+//        if(rst.next()){
+//            String lastId = rst.getString(1);
+//            String lastIdNumberString = lastId.substring(1);
+//            int lastIdNumber = Integer.parseInt(lastIdNumberString);
+//            int nextIdNumber = lastIdNumber + 1;
+//            String nextIdString = String.format(tableChar + "%03d", nextIdNumber);
+//            return nextIdString;
+//
+//        }
+//        return "C001";
+//    }
 
     public ArrayList<CustomerDto> getAllCustomers() throws SQLException, ClassNotFoundException {
 

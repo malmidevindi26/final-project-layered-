@@ -2,7 +2,9 @@ package lk.ijse.project.layered.dao.custom.impl;
 
 import lk.ijse.project.layered.dao.SQLUtil;
 import lk.ijse.project.layered.dao.custom.OrderServiceDAO;
+import lk.ijse.project.layered.dto.OrderServiceDto;
 import lk.ijse.project.layered.entity.OrderServiceEntity;
+import lk.ijse.project.layered.util.CrudUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -60,5 +62,21 @@ public class OrderServiceDAOImpl implements OrderServiceDAO {
             ));
         }
         return Optional.empty();
+    }
+
+    @Override
+    public boolean saveOrderService(OrderServiceDto dto) throws SQLException, ClassNotFoundException {
+        return CrudUtil.execute("INSERT INTO OrderService VALUES (?, ?)",
+                dto.getOrderId(),
+                dto.getServiceId()
+        );
+    }
+
+    @Override
+    public boolean updateOrderService(OrderServiceDto orderServiceDto) throws SQLException, ClassNotFoundException {
+        return CrudUtil.execute("update OrderService set service_id = ? where order_id =?",
+                orderServiceDto.getServiceId(),
+                orderServiceDto.getOrderId()
+        );
     }
 }

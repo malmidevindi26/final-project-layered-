@@ -12,6 +12,7 @@ import lk.ijse.project.layered.bo.BOType;
 import lk.ijse.project.layered.bo.custom.EmployeeBO;
 import lk.ijse.project.layered.bo.exception.InUseException;
 import lk.ijse.project.layered.dto.EmployeeDto;
+import lk.ijse.project.layered.dto.tm.CustomerTM;
 import lk.ijse.project.layered.dto.tm.EmployeeTM;
 import lk.ijse.project.layered.model.EmployeeModel;
 
@@ -128,18 +129,17 @@ public class EmployeeController implements Initializable {
     }
 
     private void loadTableData() throws SQLException, ClassNotFoundException {
-        ArrayList<EmployeeDto> employeeDtoArrayList = employeeModel.getAllEmployees();
-        ObservableList<EmployeeTM> list = FXCollections.observableArrayList();
-
-        for (EmployeeDto employeeDto : employeeDtoArrayList) {
-            EmployeeTM employeeTM = new EmployeeTM(
-                    employeeDto.getEmployeeId(),employeeDto.getName(),employeeDto.getAddress(),
-                    employeeDto.getContact(),employeeDto.getSalary(),employeeDto.getHireDate(),
-                    employeeDto.getRole()
-            );
-            list.add(employeeTM);
-        }
-        tblEmployee.setItems(list);
+        tblEmployee.setItems(FXCollections.observableArrayList(
+                employeeBO.getAllEmployees().stream().map(employeeDto -> new EmployeeTM(
+                        employeeDto.getEmployeeId(),
+                        employeeDto.getName(),
+                        employeeDto.getAddress(),
+                        employeeDto.getContact(),
+                        employeeDto.getSalary(),
+                        employeeDto.getHireDate(),
+                        employeeDto.getRole()
+                )).toList()
+        ));
 
     }
 
@@ -176,14 +176,14 @@ public class EmployeeController implements Initializable {
        }
     }
 
-    private void loadNextId() throws SQLException, ClassNotFoundException {
+    private void loadNextId() throws Exception {
 //        String nextId = employeeModel.getNextId();
-        String nextId = employeeModel.getNextId();
+        String nextId = employeeBO.getNextId();
         lblId.setText(nextId);
     }
 
 
-    public void btnResetOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
+    public void btnResetOnAction(ActionEvent actionEvent) throws Exception {
         resetPage();
     }
 
@@ -228,7 +228,7 @@ public class EmployeeController implements Initializable {
                     new Alert(Alert.AlertType.INFORMATION, "Employee has been updated successfully").show();
 
 
-            }catch (SQLException | ClassNotFoundException e){
+            }catch (Exception e){
                 new Alert(Alert.AlertType.ERROR, "Employee has not been updated").show();
                 e.printStackTrace();
             }
@@ -253,7 +253,7 @@ public class EmployeeController implements Initializable {
         }
     }
 
-    private void resetPage() throws SQLException, ClassNotFoundException {
+    private void resetPage() throws Exception {
         loadNextId();
         loadTableData();
 

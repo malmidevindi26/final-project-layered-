@@ -11,6 +11,7 @@ import lk.ijse.project.layered.bo.BOFactory;
 import lk.ijse.project.layered.bo.BOType;
 import lk.ijse.project.layered.bo.custom.SupplierBO;
 import lk.ijse.project.layered.dto.SupplierDto;
+import lk.ijse.project.layered.dto.tm.CustomerTM;
 import lk.ijse.project.layered.dto.tm.SupplierTM;
 import lk.ijse.project.layered.model.InventoryModel;
 import lk.ijse.project.layered.model.SupplierModel;
@@ -18,6 +19,7 @@ import lk.ijse.project.layered.model.SupplierModel;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -124,17 +126,28 @@ public class SupplierController implements Initializable {
     }
 
     private void loadTableData() throws SQLException, ClassNotFoundException {
-        ArrayList <SupplierDto> supplierDtoArrayList = supplierModel.getAllSupplier();
-        ObservableList<SupplierTM> list = FXCollections.observableArrayList();
-
-       for (SupplierDto supplierDto : supplierDtoArrayList) {
-           SupplierTM supplierTM = new SupplierTM(
-                   supplierDto.getSupplierId(),supplierDto.getItemId(),supplierDto.getName(),
-                   supplierDto.getAddress(),supplierDto.getContact(),supplierDto.getAmount(),supplierDto.getDate()
-           );
-           list.add(supplierTM);
-       }
-       tblSupplier.setItems(list);
+//        ArrayList <SupplierDto> supplierDtoArrayList = supplierModel.getAllSupplier();
+//        ObservableList<SupplierTM> list = FXCollections.observableArrayList();
+//
+//       for (SupplierDto supplierDto : supplierDtoArrayList) {
+//           SupplierTM supplierTM = new SupplierTM(
+//                   supplierDto.getSupplierId(),supplierDto.getItemId(),supplierDto.getName(),
+//                   supplierDto.getAddress(),supplierDto.getContact(),supplierDto.getAmount(),supplierDto.getDate()
+//           );
+//           list.add(supplierTM);
+//       }
+//       tblSupplier.setItems(list);
+        tblSupplier.setItems(FXCollections.observableArrayList(
+                supplierBO.getAllSuppliers().stream().map(supplierDto -> new SupplierTM(
+                        supplierDto.getSupplierId(),
+                        supplierDto.getItemId(),
+                        supplierDto.getName(),
+                        supplierDto.getAddress(),
+                        supplierDto.getContact(),
+                        supplierDto.getAmount(),
+                        supplierDto.getDate()
+                )).toList()
+        ));
     }
 
     public void btnSaveAction(ActionEvent actionEvent) {
@@ -258,7 +271,7 @@ public class SupplierController implements Initializable {
     }
 
     private void loadSupplierIds() throws SQLException, ClassNotFoundException {
-        ArrayList<String> list = inventoryModel.getAllSupplierIds();
+        List<String> list = supplierBO.getAllSupplierIds();
         ObservableList<String> supplierIds = FXCollections.observableArrayList();
         supplierIds.addAll(list);
         cmItemId.setItems(supplierIds);

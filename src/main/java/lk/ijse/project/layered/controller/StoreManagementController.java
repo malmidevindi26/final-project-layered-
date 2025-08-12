@@ -9,8 +9,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import lk.ijse.project.layered.bo.BOFactory;
 import lk.ijse.project.layered.bo.BOType;
+import lk.ijse.project.layered.bo.custom.OrderBO;
 import lk.ijse.project.layered.bo.custom.StoreManagementBO;
 import lk.ijse.project.layered.dto.StoreManagementDto;
+import lk.ijse.project.layered.dto.tm.CustomerTM;
 import lk.ijse.project.layered.dto.tm.StoreTM;
 import lk.ijse.project.layered.model.OrderModel;
 import lk.ijse.project.layered.model.StoreManagementModel;
@@ -18,6 +20,7 @@ import lk.ijse.project.layered.model.StoreManagementModel;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -45,6 +48,7 @@ public class StoreManagementController implements Initializable {
     private final StoreManagementModel storeManagementModel = new StoreManagementModel();
     private final OrderModel orderModel = new OrderModel();
     private final StoreManagementBO storeManagementBO = BOFactory.getInstance().getBO(BOType.STOREMANAGEMENT);
+    private final OrderBO orderBO = BOFactory.getInstance().getBO(BOType.ORDER);
 
     public TableView <StoreTM> tblStore;
     public TableColumn <StoreTM, String> colStId;
@@ -75,17 +79,25 @@ public class StoreManagementController implements Initializable {
     }
 
     private void loadTableData() throws SQLException, ClassNotFoundException {
-        ArrayList <StoreManagementDto> storeManagementDtoArrayList =storeManagementModel.getAllStore();
-        ObservableList<StoreTM> list = FXCollections.observableArrayList();
+//        ArrayList <StoreManagementDto> storeManagementDtoArrayList =storeManagementModel.getAllStore();
+//        ObservableList<StoreTM> list = FXCollections.observableArrayList();
+//
+//        for (StoreManagementDto storeManagementDto : storeManagementDtoArrayList){
+//             StoreTM storeTM = new StoreTM(
+//                     storeManagementDto.getStoreId(),storeManagementDto.getOrderId(),
+//                     storeManagementDto.getCapacity()
+//             );
+//          list.add(storeTM);
+//        }
+//       tblStore.setItems(list);
 
-        for (StoreManagementDto storeManagementDto : storeManagementDtoArrayList){
-             StoreTM storeTM = new StoreTM(
-                     storeManagementDto.getStoreId(),storeManagementDto.getOrderId(),
-                     storeManagementDto.getCapacity()
-             );
-          list.add(storeTM);
-        }
-       tblStore.setItems(list);
+        tblStore.setItems(FXCollections.observableArrayList(
+                storeManagementBO.getAllStores().stream().map(storeManagementDto -> new StoreTM(
+                        storeManagementDto.getStoreId(),
+                        storeManagementDto.getOrderId(),
+                        storeManagementDto.getCapacity()
+                )).toList()
+        ));
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
@@ -196,7 +208,7 @@ public class StoreManagementController implements Initializable {
     }
 
     private void loadOrderId() throws SQLException, ClassNotFoundException {
-        ArrayList<String> list = orderModel.getAllOrderIds();
+        List<String> list = orderBO.getAllOrderIds();
         ObservableList<String> orderIds = FXCollections.observableArrayList();
         orderIds.addAll(list);
         cmOrderId.setItems(orderIds);

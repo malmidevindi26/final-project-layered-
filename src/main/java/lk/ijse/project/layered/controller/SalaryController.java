@@ -9,8 +9,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import lk.ijse.project.layered.bo.BOFactory;
 import lk.ijse.project.layered.bo.BOType;
+import lk.ijse.project.layered.bo.custom.EmployeeBO;
 import lk.ijse.project.layered.bo.custom.SalaryBO;
 import lk.ijse.project.layered.dto.SalaryDto;
+import lk.ijse.project.layered.dto.tm.CustomerTM;
 import lk.ijse.project.layered.dto.tm.SalaryTM;
 import lk.ijse.project.layered.model.EmployeeModel;
 import lk.ijse.project.layered.model.SalaryModel;
@@ -18,6 +20,7 @@ import lk.ijse.project.layered.model.SalaryModel;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -43,6 +46,7 @@ public class SalaryController implements Initializable {
     public Button btnReport;
 
     private final SalaryBO salaryBO = BOFactory.getInstance().getBO(BOType.SALARY);
+    private final EmployeeBO employeeBO = BOFactory.getInstance().getBO(BOType.EMPLOYEE);
 
     private boolean validateInput() {
         boolean isValid = true;
@@ -87,17 +91,26 @@ public class SalaryController implements Initializable {
     }
 
     private void loadTableData() throws SQLException, ClassNotFoundException {
-        ArrayList <SalaryDto> salaryDtoArrayList = salaryModel.getAllSalary();
-        ObservableList<SalaryTM> list = FXCollections.observableArrayList();
+//        ArrayList <SalaryDto> salaryDtoArrayList = salaryModel.getAllSalary();
+//        ObservableList<SalaryTM> list = FXCollections.observableArrayList();
+//
+//        for (SalaryDto salaryDto : salaryDtoArrayList) {
+//            SalaryTM salaryTM = new SalaryTM(
+//                    salaryDto.getSalaryId(),salaryDto.getEmployeeId(),
+//                    salaryDto.getAmount(),salaryDto.getDate()
+//            );
+//            list.add(salaryTM);
+//        }
+//        tblSalary.setItems(list);
 
-        for (SalaryDto salaryDto : salaryDtoArrayList) {
-            SalaryTM salaryTM = new SalaryTM(
-                    salaryDto.getSalaryId(),salaryDto.getEmployeeId(),
-                    salaryDto.getAmount(),salaryDto.getDate()
-            );
-            list.add(salaryTM);
-        }
-        tblSalary.setItems(list);
+        tblSalary.setItems(FXCollections.observableArrayList(
+                salaryBO.getAllSalaries().stream().map(salaryDto -> new SalaryTM(
+                        salaryDto.getSalaryId(),
+                        salaryDto.getEmployeeId(),
+                        salaryDto.getAmount(),
+                        salaryDto.getDate()
+                )).toList()
+        ));
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
@@ -135,7 +148,7 @@ public class SalaryController implements Initializable {
 
     }
     private void loadEmployeeIds() throws SQLException, ClassNotFoundException {
-        ArrayList<String> list = employeeModel.getAllEmployeeIds();
+        List<String> list = employeeBO.getAllEmployeeIds();
         ObservableList<String> employeeIds = FXCollections.observableArrayList();
         employeeIds.addAll(list);
         cmEmployeeId.setItems(employeeIds);

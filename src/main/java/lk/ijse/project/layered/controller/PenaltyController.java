@@ -13,6 +13,7 @@ import lk.ijse.project.layered.bo.custom.OrderBO;
 import lk.ijse.project.layered.bo.custom.PenaltyBO;
 import lk.ijse.project.layered.bo.custom.StoreManagementBO;
 import lk.ijse.project.layered.dto.PenaltyDto;
+import lk.ijse.project.layered.dto.tm.CustomerTM;
 import lk.ijse.project.layered.dto.tm.PenaltyTm;
 import lk.ijse.project.layered.model.OrderModel;
 import lk.ijse.project.layered.model.PenaltyModel;
@@ -21,6 +22,7 @@ import lk.ijse.project.layered.model.StoreManagementModel;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -98,17 +100,26 @@ public class PenaltyController implements Initializable {
     }
 
     private void loadTableData() throws SQLException, ClassNotFoundException {
-        ArrayList <PenaltyDto> penaltyDtoArrayList = penaltyModel.getAllPenalty();
-        ObservableList<PenaltyTm> list = FXCollections.observableArrayList();
-
-        for (PenaltyDto penaltyDto : penaltyDtoArrayList) {
-            PenaltyTm penaltyTm = new PenaltyTm(
-                    penaltyDto.getPenaltyId(),penaltyDto.getOrderId(),penaltyDto.getStoreId(),
-                    penaltyDto.getAmount(),penaltyDto.getReason()
-            );
-            list.add(penaltyTm);
-        }
-        tblPenalty.setItems(list);
+//        ArrayList <PenaltyDto> penaltyDtoArrayList = penaltyModel.getAllPenalty();
+//        ObservableList<PenaltyTm> list = FXCollections.observableArrayList();
+//
+//        for (PenaltyDto penaltyDto : penaltyDtoArrayList) {
+//            PenaltyTm penaltyTm = new PenaltyTm(
+//                    penaltyDto.getPenaltyId(),penaltyDto.getOrderId(),penaltyDto.getStoreId(),
+//                    penaltyDto.getAmount(),penaltyDto.getReason()
+//            );
+//            list.add(penaltyTm);
+//        }
+//        tblPenalty.setItems(list);
+        tblPenalty.setItems(FXCollections.observableArrayList(
+                penaltyBO.getAllPenalties().stream().map(penaltyDto -> new PenaltyTm(
+                       penaltyDto.getPenaltyId(),
+                       penaltyDto.getOrderId(),
+                       penaltyDto.getStoreId(),
+                       penaltyDto.getAmount(),
+                       penaltyDto.getReason()
+                )).toList()
+        ));
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
@@ -222,13 +233,13 @@ public class PenaltyController implements Initializable {
     }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void loadOrderIds() throws SQLException, ClassNotFoundException {
-        ArrayList<String> list = orderModel.getAllOrderIds();
+        List<String> list = orderBO.getAllOrderIds();
         ObservableList<String> orderIds = FXCollections.observableArrayList();
         orderIds.addAll(list);
         cmOrderId.setItems(orderIds);
     }
     private void loadStoreIds() throws SQLException, ClassNotFoundException {
-        ArrayList<String> list = storeManagementModel.getAllStoreIds();
+        List<String> list = storeManagementBO.getAllStoreIds();
         ObservableList<String> storeIds = FXCollections.observableArrayList();
         storeIds.addAll(list);
         cmStoreId.setItems(storeIds);

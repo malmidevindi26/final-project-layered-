@@ -19,4 +19,6 @@ public interface ServiceBO extends SuperBO {
     boolean deleteService(String id) throws Exception, InUseException;
 
     String getNextId() throws SQLException, ClassNotFoundException;
+
+    List<String> getAllServiceIds() throws SQLException, ClassNotFoundException;
 }

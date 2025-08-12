@@ -83,4 +83,9 @@ public class EmployeeBOImpl implements EmployeeBO {
         }
         return tableChar + "001";
     }
+
+    @Override
+    public List<String> getAllEmployeeIds() throws SQLException, ClassNotFoundException {
+        return employeeDAO.getAllIds();
+    }
 }

@@ -9,11 +9,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import lk.ijse.project.layered.bo.BOFactory;
 import lk.ijse.project.layered.bo.BOType;
+import lk.ijse.project.layered.bo.custom.OrderBO;
 import lk.ijse.project.layered.bo.custom.PaymentBO;
 import lk.ijse.project.layered.bo.custom.PenaltyBO;
 import lk.ijse.project.layered.bo.custom.StoreManagementBO;
 import lk.ijse.project.layered.dto.PaymentDto;
 import lk.ijse.project.layered.dto.PenaltyDto;
+import lk.ijse.project.layered.dto.tm.CustomerTM;
 import lk.ijse.project.layered.dto.tm.PaymentTM;
 import lk.ijse.project.layered.model.*;
 //import lk.ijse.project.model.*;
@@ -21,6 +23,7 @@ import lk.ijse.project.layered.model.*;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -40,8 +43,9 @@ public class PaymentController implements Initializable {
     private final PenaltyModel penaltyModel = new PenaltyModel();
     private final StoreManagementModel storeModel = new StoreManagementModel();
     private final PaymentBO paymentBO = BOFactory.getInstance().getBO(BOType.PAYMENT);
-    private final PenaltyBO penaltyBO = BOFactory.getInstance().getBO(BOType.ORDER);
+    private final PenaltyBO penaltyBO = BOFactory.getInstance().getBO(BOType.PENALTY);
     private final StoreManagementBO storeManagementBO = BOFactory.getInstance().getBO(BOType.STOREMANAGEMENT);
+    private final OrderBO orderBO = BOFactory.getInstance().getBO(BOType.ORDER);
 
   //  private String penaltyId;
 
@@ -157,18 +161,31 @@ public class PaymentController implements Initializable {
     /// /
 
     private void loadTableData() throws SQLException, ClassNotFoundException {
-        ArrayList <PaymentDto> paymentDtoArrayList = paymentModel.getAllPayment();
-        ObservableList <PaymentTM> list = FXCollections.observableArrayList();
+//        ArrayList <PaymentDto> paymentDtoArrayList = paymentModel.getAllPayment();
+//        ObservableList <PaymentTM> list = FXCollections.observableArrayList();
+//
+//        for (PaymentDto paymentDto : paymentDtoArrayList) {
+//            PaymentTM paymentTM = new PaymentTM(
+//                    paymentDto.getPaymentId(),paymentDto.getOrderId(),paymentDto.getPromotionAmount(),
+//                    paymentDto.getPenaltyAmount(),paymentDto.getAmount(),paymentDto.getMethod(),
+//                    paymentDto.getStatus(),paymentDto.getDate()
+//            );
+//            list.add(paymentTM);
+//        }
+//        tblPayment.setItems(list);
 
-        for (PaymentDto paymentDto : paymentDtoArrayList) {
-            PaymentTM paymentTM = new PaymentTM(
-                    paymentDto.getPaymentId(),paymentDto.getOrderId(),paymentDto.getPromotionAmount(),
-                    paymentDto.getPenaltyAmount(),paymentDto.getAmount(),paymentDto.getMethod(),
-                    paymentDto.getStatus(),paymentDto.getDate()
-            );
-            list.add(paymentTM);
-        }
-        tblPayment.setItems(list);
+        tblPayment.setItems(FXCollections.observableArrayList(
+                paymentBO.getAllPayments().stream().map(paymentDto -> new PaymentTM(
+                       paymentDto.getPaymentId(),
+                        paymentDto.getOrderId(),
+                        paymentDto.getPromotionAmount(),
+                        paymentDto.getPenaltyAmount(),
+                        paymentDto.getAmount(),
+                        paymentDto.getMethod(),
+                        paymentDto.getStatus(),
+                        paymentDto.getDate()
+                )).toList()
+        ));
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
@@ -190,7 +207,7 @@ public class PaymentController implements Initializable {
             try {
                String penaltyId = penaltyBO.getNextId();
         ///////////////////////////////////////////////////////////////////
-                String storeId = storeModel.getStoreId(orderId);
+                String storeId = storeManagementBO.getStoreId(orderId);
         ///////////////////////////////////////////////////////////////////        ///////
                 PenaltyDto penaltyDto = new PenaltyDto(penaltyId,orderId,storeId,penaltyMount,date);
 
@@ -241,14 +258,15 @@ public class PaymentController implements Initializable {
 
            try {
            //////////////////////////////////////////////////////////////////////////////////////
-               String penaltyId =penaltyModel.getPenaltyIdByOrderIdAndDate(orderId, date);
+//               String penaltyId =penaltyModel.getPenaltyIdByOrderIdAndDate(orderId, date);
+               String penaltyId = penaltyBO.getPenaltyIdByOrderIdAndDate(orderId, date);
            //////////////////////////////////////////////////////////////////////////////////////
                if (penaltyId == null) {
                    new Alert(Alert.AlertType.ERROR, "Penalty ID not found for this order and date").show();
                    return;
                }
 
-               String storeId = storeModel.getStoreId(orderId);
+               String storeId = storeManagementBO.getStoreId(orderId);
 
                PenaltyDto penaltyDto = new PenaltyDto(penaltyId,orderId,storeId,penaltyAmount,date);
                boolean isPenaltyUpdated = penaltyBO.updatePenalty(penaltyDto);
@@ -337,7 +355,7 @@ public class PaymentController implements Initializable {
     }
 
     private void loadOrderIds() throws SQLException, ClassNotFoundException {
-        ArrayList<String> list = orderModel.getAllOrderIds();
+        List<String> list = orderBO.getAllOrderIds();
         ObservableList<String> orderIds = FXCollections.observableArrayList();
         orderIds.addAll(list);
         cmOrderId.setItems(orderIds);

@@ -11,6 +11,7 @@ import lk.ijse.project.layered.bo.BOFactory;
 import lk.ijse.project.layered.bo.BOType;
 import lk.ijse.project.layered.bo.custom.MachineBO;
 import lk.ijse.project.layered.dto.MachineDto;
+import lk.ijse.project.layered.dto.tm.CustomerTM;
 import lk.ijse.project.layered.dto.tm.MachineTM;
 import lk.ijse.project.layered.model.MachineModel;
 
@@ -97,18 +98,28 @@ public class MachineController implements Initializable {
     }
 
     private void loadTableData() throws SQLException, ClassNotFoundException {
-        ArrayList<MachineDto> machineDtoArrayList = machineModel.getAllMachine();
-        ObservableList<MachineTM> list = FXCollections.observableArrayList();
+//        ArrayList<MachineDto> machineDtoArrayList = machineModel.getAllMachine();
+//        ObservableList<MachineTM> list = FXCollections.observableArrayList();
+//
+//        for (MachineDto machineDto : machineDtoArrayList) {
+//            MachineTM machineTM = new MachineTM(
+//                    machineDto.getMachineId(),machineDto.getType(),
+//                    machineDto.getStatus(),machineDto.getCost(),
+//                    machineDto.getDate()
+//            );
+//            list.add(machineTM);
+//        }
+//        tblMachine.setItems(list);
 
-        for (MachineDto machineDto : machineDtoArrayList) {
-            MachineTM machineTM = new MachineTM(
-                    machineDto.getMachineId(),machineDto.getType(),
-                    machineDto.getStatus(),machineDto.getCost(),
-                    machineDto.getDate()
-            );
-            list.add(machineTM);
-        }
-        tblMachine.setItems(list);
+        tblMachine.setItems(FXCollections.observableArrayList(
+                machineBO.getAllMachines().stream().map(machineDto -> new MachineTM(
+                       machineDto.getMachineId(),
+                        machineDto.getType(),
+                        machineDto.getStatus(),
+                        machineDto.getCost(),
+                        machineDto.getDate()
+                )).toList()
+        ));
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {

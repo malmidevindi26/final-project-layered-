@@ -18,4 +18,6 @@ public interface EmployeeBO extends SuperBO {
     boolean deleteEmployee(String id) throws Exception, InUseException;
 
     String getNextId() throws Exception;
+
+    List<String> getAllEmployeeIds() throws SQLException, ClassNotFoundException;
 }

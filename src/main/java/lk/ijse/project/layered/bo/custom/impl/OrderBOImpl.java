@@ -8,8 +8,10 @@ import lk.ijse.project.layered.bo.util.EntityDTOConverter;
 import lk.ijse.project.layered.dao.DAOFactory;
 import lk.ijse.project.layered.dao.DAOType;
 import lk.ijse.project.layered.dao.custom.OrderDAO;
+import lk.ijse.project.layered.dao.custom.OrderServiceDAO;
 import lk.ijse.project.layered.dto.CustomerDto;
 import lk.ijse.project.layered.dto.OrderDto;
+import lk.ijse.project.layered.dto.OrderServiceDto;
 import lk.ijse.project.layered.entity.CustomerEntity;
 import lk.ijse.project.layered.entity.OrderEntity;
 
@@ -21,6 +23,7 @@ import java.util.Optional;
 public class OrderBOImpl implements OrderBO {
     private final EntityDTOConverter converter = new EntityDTOConverter();
     private final OrderDAO orderDAO = DAOFactory.getInstance().getDAO(DAOType.ORDER);
+    private final OrderServiceDAO orderServiceDAO = DAOFactory.getInstance().getDAO(DAOType.ORDER_SERVICE);
     @Override
     public List<OrderDto> getAllOrders() throws SQLException, ClassNotFoundException {
         List<OrderEntity> orderEntities = orderDAO.getAll();
@@ -84,5 +87,20 @@ public class OrderBOImpl implements OrderBO {
             return String.format(tableChar + "%03d", nextIdNumber);
         }
         return tableChar + "001";
+    }
+
+    @Override
+    public boolean saveOrderService(OrderServiceDto dto) throws SQLException, ClassNotFoundException {
+        return orderServiceDAO.saveOrderService(dto);
+    }
+
+    @Override
+    public boolean updateOrderService(OrderServiceDto orderServiceDto) throws SQLException, ClassNotFoundException {
+        return orderServiceDAO.updateOrderService(orderServiceDto);
+    }
+
+    @Override
+    public List<String> getAllOrderIds() throws SQLException, ClassNotFoundException {
+        return orderDAO.getAllIds();
     }
 }

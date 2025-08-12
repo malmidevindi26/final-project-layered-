@@ -7,4 +7,6 @@ import java.sql.SQLException;
 
 public interface OrderDAO extends CrudDAO<OrderEntity> {
     boolean existOrdersByCustomerId(String customerId) throws SQLException, ClassNotFoundException;
+
+
 }

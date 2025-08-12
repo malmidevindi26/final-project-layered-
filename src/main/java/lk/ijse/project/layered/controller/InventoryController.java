@@ -12,6 +12,7 @@ import lk.ijse.project.layered.bo.BOType;
 import lk.ijse.project.layered.bo.custom.InventoryBO;
 import lk.ijse.project.layered.bo.exception.DuplicateException;
 import lk.ijse.project.layered.dto.InventoryDto;
+import lk.ijse.project.layered.dto.tm.CustomerTM;
 import lk.ijse.project.layered.dto.tm.InventoryTM;
 import lk.ijse.project.layered.model.InventoryModel;
 
@@ -122,18 +123,31 @@ public class InventoryController implements Initializable {
     }
 
     private void loadTableData() throws SQLException, ClassNotFoundException {
-        ArrayList<InventoryDto> inventoryDtoArrayList = inventoryModel.getAllInventories();
-        ObservableList<InventoryTM> list = FXCollections.observableArrayList();
+//        ArrayList<InventoryDto> inventoryDtoArrayList = inventoryModel.getAllInventories();
+//        ObservableList<InventoryTM> list = FXCollections.observableArrayList();
+//
+//        for(InventoryDto inventoryDto : inventoryDtoArrayList) {
+//            InventoryTM inventoryTM = new InventoryTM(
+//                    inventoryDto.getItemId(),inventoryDto.getName(),
+//                    inventoryDto.getManufacturerdDate(),inventoryDto.getExpaireDate(),
+//                    inventoryDto.getStatus(),inventoryDto.getQuantity(),inventoryDto.getPrice()
+//            );
+//            list.add(inventoryTM);
+//        }
+//        tblInventory.setItems(list);
 
-        for(InventoryDto inventoryDto : inventoryDtoArrayList) {
-            InventoryTM inventoryTM = new InventoryTM(
-                    inventoryDto.getItemId(),inventoryDto.getName(),
-                    inventoryDto.getManufacturerdDate(),inventoryDto.getExpaireDate(),
-                    inventoryDto.getStatus(),inventoryDto.getQuantity(),inventoryDto.getPrice()
-            );
-            list.add(inventoryTM);
-        }
-        tblInventory.setItems(list);
+        tblInventory.setItems(FXCollections.observableArrayList(
+                inventoryBO.getAllInventories().stream().map(inventoryDto -> new InventoryTM(
+                        inventoryDto.getItemId(),
+                        inventoryDto.getName(),
+                        inventoryDto.getManufacturerdDate(),
+                        inventoryDto.getExpaireDate(),
+                        inventoryDto.getStatus(),
+                        inventoryDto.getQuantity(),
+                        inventoryDto.getPrice()
+
+                )).toList()
+        ));
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {

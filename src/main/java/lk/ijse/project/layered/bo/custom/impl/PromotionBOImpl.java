@@ -75,9 +75,9 @@ public class PromotionBOImpl implements PromotionBO {
     @Override
     public String getNextId() throws SQLException, ClassNotFoundException {
         String lastId = promotionDAO.getLastId();
-        String tableChar = "C";
+        String tableChar = "PR";
         if (lastId != null) {
-            String lastIdNumberString = lastId.substring(1);
+            String lastIdNumberString = lastId.substring(2);
             int lastIdNumber = Integer.parseInt(lastIdNumberString);
             int nextIdNumber = lastIdNumber + 1;
             return String.format(tableChar + "%03d", nextIdNumber);

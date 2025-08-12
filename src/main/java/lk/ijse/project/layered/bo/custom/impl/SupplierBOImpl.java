@@ -76,11 +76,16 @@ public class SupplierBOImpl implements SupplierBO {
         String lastId = supplierDAO.getLastId();
         String  tableChar = "SP";
         if (lastId != null) {
-            String lastIdNumberString = lastId.substring(1);
+            String lastIdNumberString = lastId.substring(2);
             int lastIdNumber = Integer.parseInt(lastIdNumberString);
             int nextIdNumber = lastIdNumber + 1;
             return String.format(tableChar + "%03d", nextIdNumber);
         }
         return tableChar + "001";
+    }
+
+    @Override
+    public List<String> getAllSupplierIds() throws SQLException, ClassNotFoundException {
+        return supplierDAO.getAllIds();
     }
 }

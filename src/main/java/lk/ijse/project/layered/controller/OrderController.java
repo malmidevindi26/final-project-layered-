@@ -9,13 +9,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import lk.ijse.project.layered.bo.BOFactory;
 import lk.ijse.project.layered.bo.BOType;
+import lk.ijse.project.layered.bo.custom.CustomerBO;
 import lk.ijse.project.layered.bo.custom.OrderBO;
+import lk.ijse.project.layered.bo.custom.ServiceBO;
 import lk.ijse.project.layered.bo.custom.StoreManagementBO;
 import lk.ijse.project.layered.db.DBConnection;
 import lk.ijse.project.layered.dto.OrderDto;
 import lk.ijse.project.layered.dto.OrderServiceDto;
 import lk.ijse.project.layered.dto.StoreManagementDto;
+import lk.ijse.project.layered.dto.tm.CustomerTM;
 import lk.ijse.project.layered.dto.tm.OrderTM;
+import lk.ijse.project.layered.entity.StoreManagementEntity;
 import lk.ijse.project.layered.model.*;
 //import lk.ijse.project.model.*;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -40,8 +44,11 @@ public class OrderController implements Initializable {
     private final CustomerModel customerModel = new CustomerModel();
     private final ServiceModel serviceModel = new ServiceModel();
     private  final StoreManagementModel storeManagementModel = new StoreManagementModel();
+
+    private final CustomerBO customerBO = BOFactory.getInstance().getBO(BOType.CUSTOMER);
     private final OrderBO orderBO = BOFactory.getInstance().getBO(BOType.ORDER);
     private final StoreManagementBO storeManagementBO = BOFactory.getInstance().getBO(BOType.STOREMANAGEMENT);
+    private final ServiceBO serviceBO = BOFactory.getInstance().getBO(BOType.SERVICE);
 
     public TableView <OrderTM> tblOrder;
     public TableColumn <OrderTM, String> colOrId;
@@ -118,17 +125,16 @@ public class OrderController implements Initializable {
     }
 
     private void lodaTableData() throws SQLException, ClassNotFoundException {
-        ArrayList<OrderDto> orderDtoArrayList = orderModel.getAllOrders();
-
-        ObservableList<OrderTM> list = FXCollections.observableArrayList();
-        for (OrderDto orderDto : orderDtoArrayList) {
-            OrderTM orderTM = new OrderTM(
-                    orderDto.getOrderId(),orderDto.getCustomId(),orderDto.getClothCategory(),
-                    orderDto.getDate(),orderDto.getStatus(),orderDto.getServiceId()
-            );
-            list.add(orderTM);
-        }
-        tblOrder.setItems(list);
+        tblOrder.setItems(FXCollections.observableArrayList(
+                orderBO.getAllOrders().stream().map(orderDto -> new OrderTM(
+                   orderDto.getOrderId(),
+                   orderDto.getCustomId(),
+                   orderDto.getClothCategory(),
+                   orderDto.getDate(),
+                   orderDto.getStatus(),
+                   orderDto.getServiceId()
+                )).toList()
+        ));
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
@@ -150,7 +156,7 @@ public class OrderController implements Initializable {
                 /// ///////////////////////////////
                 if (isSave) {
                     OrderServiceDto orderServiceDto = new OrderServiceDto( orderId, serviceId);
-                    boolean isOrderServiceSave = new OrderServiceModel().saveOrderService(orderServiceDto);
+                    boolean isOrderServiceSave = orderBO.saveOrderService(orderServiceDto);
                 /// //////////////////////////////
                     if (isOrderServiceSave) {
                         String storeId = storeManagementBO.getNextId();
@@ -203,15 +209,16 @@ public class OrderController implements Initializable {
 
 
            try {
-               boolean isUpdate = orderModel.updateOrder(orderDto);
+               boolean isUpdate = orderBO.updateOrder(orderDto);
                if (isUpdate) {
                    OrderServiceDto orderServiceDto = new OrderServiceDto( orderId, serviceId);
-                   boolean isOrderServiceSave = new OrderServiceModel().updateOrderService(orderServiceDto);
+                   boolean isOrderServiceSave =orderBO.updateOrderService(orderServiceDto);
 
                    if (isOrderServiceSave) {
-                       String storeId = StoreManagementModel.getNextId();
+                       String storeId = storeManagementBO.getNextId();
                        StoreManagementDto storeDto = new StoreManagementDto(storeId,orderId,capacity);
-                       boolean isStoreUpdate = storeManagementModel.updateOrInsertStore(storeDto);
+//                       StoreManagementEntity storeEntity = new StoreManagementEntity(storeId,orderId,capacity);
+                       boolean isStoreUpdate = storeManagementBO.updateOrInsertStore(storeDto);
                        if (isStoreUpdate) {
                            resetPage();
                            new Alert(Alert.AlertType.INFORMATION, "Order , store and Order Service update").show();
@@ -289,7 +296,7 @@ public class OrderController implements Initializable {
     }
 
     private void loadCustomerIds() throws ClassNotFoundException, SQLException {
-        ArrayList<String> list = customerModel.getAllCustomersIds();
+        List<String> list = customerBO.getAllCustomersIds();
         ObservableList<String>  customerIds = FXCollections.observableArrayList();
         customerIds.addAll(list);
         comCustId.setItems(customerIds);
@@ -297,7 +304,7 @@ public class OrderController implements Initializable {
     }
 
     private void loadServiceIds() throws ClassNotFoundException, SQLException {
-        ArrayList<String> list = serviceModel.getAllServiceIds();
+        List<String> list = serviceBO.getAllServiceIds();
         ObservableList<String> serviceIds = FXCollections.observableArrayList();
         serviceIds.addAll(list);
         comServiceId.setItems(serviceIds);

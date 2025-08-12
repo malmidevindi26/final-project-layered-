@@ -11,6 +11,7 @@ import lk.ijse.project.layered.bo.BOFactory;
 import lk.ijse.project.layered.bo.BOType;
 import lk.ijse.project.layered.bo.custom.UtilityExpenseBO;
 import lk.ijse.project.layered.dto.UtilityExpenseDto;
+import lk.ijse.project.layered.dto.tm.CustomerTM;
 import lk.ijse.project.layered.dto.tm.UtilityTM;
 import lk.ijse.project.layered.model.UtilityExpenseModel;
 
@@ -90,17 +91,25 @@ public class UtilityExpenseController implements Initializable {
     }
 
     private void loadTableData() throws SQLException, ClassNotFoundException {
-        ArrayList<UtilityExpenseDto> utilityExpenseDtoArrayList = utilityExpenseModel.getAllUtility();
-        ObservableList<UtilityTM> list = FXCollections.observableArrayList();
-
-        for (UtilityExpenseDto utilityExpenseDto : utilityExpenseDtoArrayList) {
-            UtilityTM utilityTM = new UtilityTM(
-                   utilityExpenseDto.getExpenseId(),utilityExpenseDto.getExpenseType(),utilityExpenseDto.getAmount(),
-                    utilityExpenseDto.getBillingDate()
-            );
-            list.add(utilityTM);
-        }
-        tblUtility.setItems(list);
+//        ArrayList<UtilityExpenseDto> utilityExpenseDtoArrayList = utilityExpenseModel.getAllUtility();
+//        ObservableList<UtilityTM> list = FXCollections.observableArrayList();
+//
+//        for (UtilityExpenseDto utilityExpenseDto : utilityExpenseDtoArrayList) {
+//            UtilityTM utilityTM = new UtilityTM(
+//                   utilityExpenseDto.getExpenseId(),utilityExpenseDto.getExpenseType(),utilityExpenseDto.getAmount(),
+//                    utilityExpenseDto.getBillingDate()
+//            );
+//            list.add(utilityTM);
+//        }
+//        tblUtility.setItems(list);
+        tblUtility.setItems(FXCollections.observableArrayList(
+                utilityExpenseBO.getAllExpenses().stream().map(utilityExpenseDto -> new UtilityTM(
+                        utilityExpenseDto.getExpenseId(),
+                        utilityExpenseDto.getExpenseType(),
+                        utilityExpenseDto.getAmount(),
+                        utilityExpenseDto.getBillingDate()
+                )).toList()
+        ));
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {

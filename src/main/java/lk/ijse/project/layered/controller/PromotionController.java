@@ -11,6 +11,7 @@ import lk.ijse.project.layered.bo.BOFactory;
 import lk.ijse.project.layered.bo.BOType;
 import lk.ijse.project.layered.bo.custom.PromotionBO;
 import lk.ijse.project.layered.dto.PromotionDto;
+import lk.ijse.project.layered.dto.tm.CustomerTM;
 import lk.ijse.project.layered.dto.tm.PromotionTM;
 import lk.ijse.project.layered.model.PromotionModel;
 
@@ -99,18 +100,27 @@ public class PromotionController implements Initializable {
     }
 
     private void loadTableData() throws SQLException, ClassNotFoundException {
-        ArrayList<PromotionDto> promotionDtoArrayList = promotionModel.getAllPromotion();
-        ObservableList<PromotionTM> list = FXCollections.observableArrayList();
-
-        for (PromotionDto promotionDto : promotionDtoArrayList) {
-            PromotionTM promotionTM = new PromotionTM(
-                    promotionDto.getPromotionId(),promotionDto.getCode(),
-                    promotionDto.getDiscount(),promotionDto.getDate(),
-                    promotionDto.getDescription()
-            );
-            list.add(promotionTM);
-        }
-        tblPromotion.setItems(list);
+//        ArrayList<PromotionDto> promotionDtoArrayList = promotionModel.getAllPromotion();
+//        ObservableList<PromotionTM> list = FXCollections.observableArrayList();
+//
+//        for (PromotionDto promotionDto : promotionDtoArrayList) {
+//            PromotionTM promotionTM = new PromotionTM(
+//                    promotionDto.getPromotionId(),promotionDto.getCode(),
+//                    promotionDto.getDiscount(),promotionDto.getDate(),
+//                    promotionDto.getDescription()
+//            );
+//            list.add(promotionTM);
+//        }
+//        tblPromotion.setItems(list);
+        tblPromotion.setItems(FXCollections.observableArrayList(
+                promotionBO.getAllPromotions().stream().map(promotionDto -> new PromotionTM(
+                        promotionDto.getPromotionId(),
+                        promotionDto.getCode(),
+                        promotionDto.getDiscount(),
+                        promotionDto.getDate(),
+                        promotionDto.getDescription()
+                )).toList()
+        ));
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {

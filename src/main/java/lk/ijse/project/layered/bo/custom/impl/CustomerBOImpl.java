@@ -87,4 +87,9 @@ public class CustomerBOImpl implements CustomerBO {
         }
         return tableChar + "001";
     }
+
+    @Override
+    public List<String> getAllCustomersIds() throws SQLException, ClassNotFoundException {
+        return customerDAO.getAllIds();
+    }
 }

@@ -11,6 +11,7 @@ import lk.ijse.project.layered.bo.BOFactory;
 import lk.ijse.project.layered.bo.BOType;
 import lk.ijse.project.layered.bo.custom.ServiceBO;
 import lk.ijse.project.layered.dto.ServiceDto;
+import lk.ijse.project.layered.dto.tm.CustomerTM;
 import lk.ijse.project.layered.dto.tm.ServiceTM;
 import lk.ijse.project.layered.model.ServiceModel;
 
@@ -86,17 +87,25 @@ public class ServiceController implements Initializable {
     }
 
     private void loadTableData() throws SQLException, ClassNotFoundException {
-        ArrayList<ServiceDto> serviceDtoArrayList = serviceModel.getAllService();
-        ObservableList<ServiceTM> list = FXCollections.observableArrayList();
-
-        for (ServiceDto serviceDto : serviceDtoArrayList) {
-            ServiceTM serviceTM = new ServiceTM(
-                    serviceDto.getServiceId(),serviceDto.getName(),
-                    serviceDto.getPrice(),serviceDto.getDescription()
-            );
-            list.add(serviceTM);
-        }
-        tblService.setItems(list);
+//        ArrayList<ServiceDto> serviceDtoArrayList = serviceModel.getAllService();
+//        ObservableList<ServiceTM> list = FXCollections.observableArrayList();
+//
+//        for (ServiceDto serviceDto : serviceDtoArrayList) {
+//            ServiceTM serviceTM = new ServiceTM(
+//                    serviceDto.getServiceId(),serviceDto.getName(),
+//                    serviceDto.getPrice(),serviceDto.getDescription()
+//            );
+//            list.add(serviceTM);
+//        }
+//        tblService.setItems(list);
+        tblService.setItems(FXCollections.observableArrayList(
+                serviceBO.getAllServices().stream().map(serviceDto -> new ServiceTM(
+                        serviceDto.getServiceId(),
+                        serviceDto.getName(),
+                        serviceDto.getPrice(),
+                        serviceDto.getDescription()
+                )).toList()
+        ));
     }
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
