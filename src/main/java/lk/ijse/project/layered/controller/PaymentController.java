@@ -42,10 +42,12 @@ public class PaymentController implements Initializable {
     private final OrderServiceModel orderServiceModel = new OrderServiceModel();
     private final PenaltyModel penaltyModel = new PenaltyModel();
     private final StoreManagementModel storeModel = new StoreManagementModel();
+
     private final PaymentBO paymentBO = BOFactory.getInstance().getBO(BOType.PAYMENT);
     private final PenaltyBO penaltyBO = BOFactory.getInstance().getBO(BOType.PENALTY);
     private final StoreManagementBO storeManagementBO = BOFactory.getInstance().getBO(BOType.STOREMANAGEMENT);
     private final OrderBO orderBO = BOFactory.getInstance().getBO(BOType.ORDER);
+
 
   //  private String penaltyId;
 
@@ -140,11 +142,13 @@ public class PaymentController implements Initializable {
 
             if (orderId == null || orderId.isEmpty() || paymentDate == null || paymentDate.isEmpty()) return;
 
-            double itemCost = orderItemModel.getTotalItemCost(orderId);
+            double itemCost = orderBO.getTotalItemCost(orderId);
             lblItem.setText(String.format("%.2f", itemCost));
-            double serviceCost = orderServiceModel.getTotalServiceCost(orderId);
+
+            double serviceCost = orderBO.getTotalServiceCost(orderId);
             lblService.setText(String.format("%.2f",serviceCost));
-            double penalty = penaltyModel.getPenaltyAmount(orderId, paymentDate);
+
+            double penalty = orderBO.getPenaltyAmount(orderId, paymentDate);
             txtPenaltyId.setText(String.format("%.2f", penalty));
             double promotion = txtProId.getText().isEmpty() ? 0 : Double.parseDouble(txtProId.getText());
 

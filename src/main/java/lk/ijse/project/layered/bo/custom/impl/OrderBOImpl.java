@@ -8,7 +8,9 @@ import lk.ijse.project.layered.bo.util.EntityDTOConverter;
 import lk.ijse.project.layered.dao.DAOFactory;
 import lk.ijse.project.layered.dao.DAOType;
 import lk.ijse.project.layered.dao.custom.OrderDAO;
+import lk.ijse.project.layered.dao.custom.OrderItemDAO;
 import lk.ijse.project.layered.dao.custom.OrderServiceDAO;
+import lk.ijse.project.layered.dao.custom.PenaltyDAO;
 import lk.ijse.project.layered.dto.CustomerDto;
 import lk.ijse.project.layered.dto.OrderDto;
 import lk.ijse.project.layered.dto.OrderServiceDto;
@@ -21,9 +23,12 @@ import java.util.List;
 import java.util.Optional;
 
 public class OrderBOImpl implements OrderBO {
+
     private final EntityDTOConverter converter = new EntityDTOConverter();
     private final OrderDAO orderDAO = DAOFactory.getInstance().getDAO(DAOType.ORDER);
     private final OrderServiceDAO orderServiceDAO = DAOFactory.getInstance().getDAO(DAOType.ORDER_SERVICE);
+    private final OrderItemDAO orderItemDAO = DAOFactory.getInstance().getDAO(DAOType.ORDER_ITEM);
+    private final PenaltyDAO penaltyDAO = DAOFactory.getInstance().getDAO(DAOType.PENALTY);
     @Override
     public List<OrderDto> getAllOrders() throws SQLException, ClassNotFoundException {
         List<OrderEntity> orderEntities = orderDAO.getAll();
@@ -78,15 +83,16 @@ public class OrderBOImpl implements OrderBO {
 
     @Override
     public String getNextId() throws SQLException, ClassNotFoundException {
-        String lastId = orderDAO.getLastId();
-        char tableChar = 'O';
-        if (lastId != null) {
-            String lastIdNumberString = lastId.substring(1);
-            int lastIdNumber = Integer.parseInt(lastIdNumberString);
-            int nextIdNumber = lastIdNumber + 1;
-            return String.format(tableChar + "%03d", nextIdNumber);
-        }
-        return tableChar + "001";
+//        String lastId = orderDAO.getLastId();
+//        char tableChar = 'O';
+//        if (lastId != null) {
+//            String lastIdNumberString = lastId.substring(1);
+//            int lastIdNumber = Integer.parseInt(lastIdNumberString);
+//            int nextIdNumber = lastIdNumber + 1;
+//            return String.format(tableChar + "%03d", nextIdNumber);
+//        }
+//        return tableChar + "001";
+        return  orderDAO.getLastId();
     }
 
     @Override
@@ -103,4 +109,35 @@ public class OrderBOImpl implements OrderBO {
     public List<String> getAllOrderIds() throws SQLException, ClassNotFoundException {
         return orderDAO.getAllIds();
     }
+
+    @Override
+    public OrderDto findById(String id) throws SQLException, ClassNotFoundException {
+        Optional<OrderEntity> optionalOrder = orderDAO.findById(id);
+        return optionalOrder.map(converter::getOrderDTO).orElse(null);
+    }
+
+    @Override
+    public double getTotalItemCost(String orderId) throws SQLException, ClassNotFoundException {
+        return orderItemDAO.getTotalItemCost(orderId);
+    }
+
+    @Override
+    public double getTotalServiceCost(String orderId) throws SQLException, ClassNotFoundException {
+        return orderServiceDAO.getTotalServiceCost(orderId);
+    }
+
+    @Override
+    public double getPenaltyAmount(String orderId, String paymentDate) throws SQLException, ClassNotFoundException {
+        return penaltyDAO.getPenaltyAmount(orderId, paymentDate);
+    }
+
+//    @Override
+//    public Optional<OrderEntity> findById(String id) throws SQLException, ClassNotFoundException {
+//        OrderEntity orderEntity = converter.getOrder(id);
+//        return orderDAO.findById(id);
+//
+//
+//    }
+
+
 }

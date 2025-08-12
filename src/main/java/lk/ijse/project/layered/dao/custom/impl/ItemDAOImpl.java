@@ -20,7 +20,7 @@ public class ItemDAOImpl implements ItemDAO {
 
     @Override
     public boolean save(ItemEntity itemEntity) throws SQLException {
-        return false;
+        return true;
     }
 
     @Override

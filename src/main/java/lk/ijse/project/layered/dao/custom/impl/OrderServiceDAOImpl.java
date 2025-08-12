@@ -79,4 +79,17 @@ public class OrderServiceDAOImpl implements OrderServiceDAO {
                 orderServiceDto.getOrderId()
         );
     }
+
+    @Override
+    public double getTotalServiceCost(String orderId) throws SQLException, ClassNotFoundException {
+        ResultSet rst = CrudUtil.execute(
+                "SELECT SUM(s.price * o.capacity) FROM OrderService os JOIN Service s ON os.service_id = s.service_id JOIN `order` o ON os.order_id = o.order_id WHERE os.order_id = ?",
+                orderId
+        );
+
+        if (rst.next()) {
+            return rst.getDouble(1);
+        }
+        return 0.0;
+    }
 }

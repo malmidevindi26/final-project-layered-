@@ -57,7 +57,7 @@ public class InventoryModel {
         return list;
     }
 
-    public ArrayList<String> getAllSupplierIds() throws SQLException, ClassNotFoundException {
+    public ArrayList<String> getAllItemIds() throws SQLException, ClassNotFoundException {
         ResultSet rst = CrudUtil.execute("select item_id from Inventory");
         ArrayList<String> list = new ArrayList<>();
         while (rst.next()){

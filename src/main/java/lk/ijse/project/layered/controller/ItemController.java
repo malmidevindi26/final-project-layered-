@@ -8,7 +8,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.project.layered.bo.BOFactory;
 import lk.ijse.project.layered.bo.BOType;
+import lk.ijse.project.layered.bo.custom.InventoryBO;
 import lk.ijse.project.layered.bo.custom.ItemBO;
+import lk.ijse.project.layered.bo.custom.OrderBO;
 import lk.ijse.project.layered.dto.InventoryDto;
 import lk.ijse.project.layered.dto.ItemDto;
 import lk.ijse.project.layered.dto.OrderDto;
@@ -25,6 +27,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ItemController implements Initializable {
@@ -53,6 +56,8 @@ public class ItemController implements Initializable {
     private final ObservableList<CartTM> cartData = FXCollections.observableArrayList();
 
     private final ItemBO itemBO = BOFactory.getInstance().getBO(BOType.ITEM);
+    private final InventoryBO inventoryBO = BOFactory.getInstance().getBO(BOType.INVENTORY);
+    private final OrderBO orderBO = BOFactory.getInstance().getBO(BOType.ORDER);
 
     public void btnSaveOnAction(ActionEvent actionEvent) {
     }
@@ -62,7 +67,7 @@ public class ItemController implements Initializable {
 
     public void cmbItemOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
          String selectedItemId = cmbItemId.getSelectionModel().getSelectedItem();
-         InventoryDto inventoryDto = inventoryModel.findById(selectedItemId);
+         InventoryDto inventoryDto = inventoryBO.findById(selectedItemId);
 
          if(inventoryDto != null){
              lblItemName.setText(inventoryDto.getName());
@@ -149,13 +154,18 @@ public class ItemController implements Initializable {
             ).show();
             return;
         }
-        if (cmOrderId.getValue().isEmpty()) {
-            new Alert(
-                    Alert.AlertType.WARNING,
-                    "Please select order for place order..!"
-            ).show();
+//        if (cmOrderId.getValue().isEmpty()) {
+//            new Alert(
+//                    Alert.AlertType.WARNING,
+//                    "Please select order for place order..!"
+//            ).show();
+//            return;
+//        }
+        if (cmOrderId.getValue() == null || cmOrderId.getValue().isEmpty()) {
+            new Alert(Alert.AlertType.WARNING, "Please select order for place order..!").show();
             return;
         }
+
         String selectedOrderId = cmOrderId.getValue();
         String customerId = lblCustomerId.getText();
         LocalDate localDate = LocalDate.parse(orderDate.getText());
@@ -203,7 +213,7 @@ public class ItemController implements Initializable {
 
     public void cmOrderIdOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
         String selectedItemId = cmOrderId.getSelectionModel().getSelectedItem();
-        OrderDto orderDto = orderModel.findById(selectedItemId);
+        OrderDto orderDto = orderBO.findById(selectedItemId);
 
         if(orderDto != null){
             lblCustomerId.setText(orderDto.getCustomId());
@@ -215,13 +225,14 @@ public class ItemController implements Initializable {
     }
 
     private void loadItemIds() throws SQLException, ClassNotFoundException {
-        ArrayList<String> itemIdsList = inventoryModel.getAllSupplierIds();
+        List<String> itemIdsList = inventoryBO.getAllItemIds();
         ObservableList<String> itemIds = FXCollections.observableArrayList();
         itemIds.addAll(itemIdsList);
         cmbItemId.setItems(itemIds);
     }
+
     private void loadOrderIds() throws SQLException, ClassNotFoundException {
-        ArrayList<String> customerIdsList = orderModel.getAllOrderIds();
+        List<String> customerIdsList = orderBO.getAllOrderIds();
         ObservableList<String> customerIds = FXCollections.observableArrayList(customerIdsList);
         customerIds.addAll(customerIdsList);
        // System.out.println(customerIdsList.getFirst());

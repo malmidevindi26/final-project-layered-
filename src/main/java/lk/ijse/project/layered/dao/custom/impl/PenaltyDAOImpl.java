@@ -3,8 +3,12 @@ package lk.ijse.project.layered.dao.custom.impl;
 import lk.ijse.project.layered.dao.SQLUtil;
 import lk.ijse.project.layered.dao.custom.PenaltyDAO;
 import lk.ijse.project.layered.entity.PenaltyEntity;
+import lk.ijse.project.layered.util.CrudUtil;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -102,5 +106,26 @@ public class PenaltyDAOImpl implements PenaltyDAO {
                 orderId,
                 date
         );
+    }
+
+    @Override
+    public double getPenaltyAmount(String orderId, String paymentDate) throws SQLException, ClassNotFoundException {
+        String sql = "SELECT order_date FROM `order` WHERE order_id = ?";
+        ResultSet rs = CrudUtil.execute(sql, orderId);
+
+        if (rs.next()) {
+            LocalDate orderDate = rs.getDate("order_date").toLocalDate();
+            LocalDate payDate = LocalDate.parse(paymentDate);
+
+            long daysBetween = ChronoUnit.DAYS.between(orderDate, payDate);
+
+            if (daysBetween <= 7) {
+                return 0.0;
+            } else {
+                return (daysBetween - 7) * 20.0;
+            }
+        }
+
+        return 0.0;
     }
 }

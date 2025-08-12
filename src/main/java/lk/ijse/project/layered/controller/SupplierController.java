@@ -9,6 +9,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import lk.ijse.project.layered.bo.BOFactory;
 import lk.ijse.project.layered.bo.BOType;
+import lk.ijse.project.layered.bo.custom.InventoryBO;
 import lk.ijse.project.layered.bo.custom.SupplierBO;
 import lk.ijse.project.layered.dto.SupplierDto;
 import lk.ijse.project.layered.dto.tm.CustomerTM;
@@ -35,6 +36,7 @@ public class SupplierController implements Initializable {
     private final SupplierModel supplierModel = new SupplierModel();
     private final InventoryModel inventoryModel = new InventoryModel();
     private final SupplierBO supplierBO = BOFactory.getInstance().getBO(BOType.SUPPLIER);
+    private final InventoryBO inventoryBO = BOFactory.getInstance().getBO(BOType.INVENTORY);
 
 
     public TableView <SupplierTM> tblSupplier;
@@ -271,9 +273,9 @@ public class SupplierController implements Initializable {
     }
 
     private void loadSupplierIds() throws SQLException, ClassNotFoundException {
-        List<String> list = supplierBO.getAllSupplierIds();
-        ObservableList<String> supplierIds = FXCollections.observableArrayList();
-        supplierIds.addAll(list);
-        cmItemId.setItems(supplierIds);
+        List<String> list = inventoryBO.getAllItemIds();
+        ObservableList<String> inventoryIds = FXCollections.observableArrayList();
+        inventoryIds.addAll(list);
+        cmItemId.setItems(inventoryIds);
     }
 }

@@ -80,7 +80,7 @@ public class ServiceController implements Initializable {
         try {
             resetPage();
         }catch (Exception e){
-            new Alert(Alert.AlertType.ERROR, "Failed to load Employee Details").show();
+            new Alert(Alert.AlertType.ERROR, "Failed to load Service Details").show();
             e.printStackTrace();
         }
 

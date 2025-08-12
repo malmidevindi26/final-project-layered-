@@ -73,15 +73,16 @@ public class StoreManagementBOImpl implements StoreManagementBO {
 
     @Override
     public String getNextId() throws SQLException, ClassNotFoundException {
-        String lastId = storeManagementDAO.getLastId();
-        String tableChar = "ST";
-        if (lastId != null) {
-            String lastIdNumberString = lastId.substring(2);
-            int lastIdNumber = Integer.parseInt(lastIdNumberString);
-            int nextIdNumber = lastIdNumber + 1;
-            return String.format(tableChar + "%03d", nextIdNumber);
-        }
-        return tableChar + "001";
+//        String lastId = storeManagementDAO.getLastId();
+//        String tableChar = "ST";
+//        if (lastId != null) {
+//            String lastIdNumberString = lastId.substring(2);
+//            int lastIdNumber = Integer.parseInt(lastIdNumberString);
+//            int nextIdNumber = lastIdNumber + 1;
+//            return String.format(tableChar + "%03d", nextIdNumber);
+//        }
+//        return tableChar + "001";
+        return storeManagementDAO.getLastId();
     }
 
     @Override

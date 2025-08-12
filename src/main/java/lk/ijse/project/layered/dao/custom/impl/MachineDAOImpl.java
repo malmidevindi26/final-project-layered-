@@ -33,7 +33,7 @@ public class MachineDAOImpl implements MachineDAO {
     @Override
     public String getLastId() throws SQLException, ClassNotFoundException {
         ResultSet rst = SQLUtil.execute("select machine_id from Machine order by machine_id desc limit 1");
-        char tableChar = 'I';
+        char tableChar = 'M';
 
         if (rst.next()) {
             String lastId = rst.getString(1);

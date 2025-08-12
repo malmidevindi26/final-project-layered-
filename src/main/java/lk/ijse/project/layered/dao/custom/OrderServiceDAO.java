@@ -12,4 +12,6 @@ public interface OrderServiceDAO extends CrudDAO<OrderServiceEntity> {
     boolean saveOrderService(OrderServiceDto dto) throws SQLException, ClassNotFoundException;
 
     boolean updateOrderService(OrderServiceDto orderServiceDto) throws SQLException, ClassNotFoundException;
+
+    double getTotalServiceCost(String orderId) throws SQLException, ClassNotFoundException;
 }

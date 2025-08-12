@@ -14,6 +14,7 @@ import lk.ijse.project.layered.dto.CustomerDto;
 import lk.ijse.project.layered.dto.InventoryDto;
 import lk.ijse.project.layered.entity.CustomerEntity;
 import lk.ijse.project.layered.entity.InventoryEntity;
+import lk.ijse.project.layered.entity.OrderEntity;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -74,14 +75,26 @@ public class InventoryBOImpl implements InventoryBO {
 
     @Override
     public String getNextId() throws Exception {
-        String lastId = inventoryDAO.getLastId();
-        char tableChar = 'I';
-        if (lastId != null) {
-            String lastIdNumberString = lastId.substring(1);
-            int lastIdNumber = Integer.parseInt(lastIdNumberString);
-            int nextIdNumber = lastIdNumber + 1;
-            return String.format(tableChar + "%03d", nextIdNumber);
-        }
-        return tableChar + "001";
+//        String lastId = inventoryDAO.getLastId();
+//        char tableChar = 'I';
+//        if (lastId != null) {
+//            String lastIdNumberString = lastId.substring(1);
+//            int lastIdNumber = Integer.parseInt(lastIdNumberString);
+//            int nextIdNumber = lastIdNumber + 1;
+//            return String.format(tableChar + "%03d", nextIdNumber);
+//        }
+//        return tableChar + "001";
+        return  inventoryDAO.getLastId();
+    }
+
+    @Override
+    public List<String> getAllItemIds() throws SQLException, ClassNotFoundException {
+        return inventoryDAO.getAllIds();
+    }
+
+    @Override
+    public InventoryDto findById(String id) throws SQLException, ClassNotFoundException {
+        Optional<InventoryEntity> optionalInventory = inventoryDAO.findById(id);
+        return optionalInventory.map(converter::getInventoryDTO).orElse(null);
     }
 }

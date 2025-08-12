@@ -33,17 +33,17 @@ public class ServiceDAOImpl implements ServiceDAO {
     public String getLastId() throws SQLException, ClassNotFoundException {
         ResultSet rst = SQLUtil.execute("select service_id from Service order by service_id desc limit 1");
 
-        char tableChar = 'S';
+        String tableChar = "SE";
 
         if (rst.next()) {
             String lastId = rst.getString(1);
-            String lastIdNumberString = lastId.substring(1);
+            String lastIdNumberString = lastId.substring(2);
             int lastIdNumber = Integer.parseInt(lastIdNumberString);
             int nextIdNumber = lastIdNumber + 1;
             String nextIdString = String.format(tableChar + "%03d", nextIdNumber);
             return nextIdString;
         }
-        return "S001";
+        return "SE001";
     }
 
     @Override

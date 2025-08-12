@@ -74,14 +74,15 @@ public class MachineBOImpl implements MachineBO {
 
     @Override
     public String getNextId() throws Exception {
-        String lastId = machineDAO.getLastId();
-        char tableChar = 'M';
-        if (lastId != null) {
-            String lastIdNumberString = lastId.substring(1);
-            int lastIdNumber = Integer.parseInt(lastIdNumberString);
-            int nextIdNumber = lastIdNumber + 1;
-            return String.format(tableChar + "%03d", nextIdNumber);
-        }
-        return tableChar + "001";
+//        String lastId = machineDAO.getLastId();
+//        char tableChar = 'M';
+//        if (lastId != null) {
+//            String lastIdNumberString = lastId.substring(1);
+//            int lastIdNumber = Integer.parseInt(lastIdNumberString);
+//            int nextIdNumber = lastIdNumber + 1;
+//            return String.format(tableChar + "%03d", nextIdNumber);
+//        }
+//        return tableChar + "001";
+        return machineDAO.getLastId();
     }
 }
