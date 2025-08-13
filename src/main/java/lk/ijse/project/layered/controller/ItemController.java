@@ -16,10 +16,10 @@ import lk.ijse.project.layered.dto.ItemDto;
 import lk.ijse.project.layered.dto.OrderDto;
 import lk.ijse.project.layered.dto.OrderItemDto;
 import lk.ijse.project.layered.dto.tm.CartTM;
-import lk.ijse.project.layered.model.CustomerModel;
-import lk.ijse.project.layered.model.InventoryModel;
-import lk.ijse.project.layered.model.ItemModel;
-import lk.ijse.project.layered.model.OrderModel;
+//import lk.ijse.project.layered.model.CustomerModel;
+//import lk.ijse.project.layered.model.InventoryModel;
+//import lk.ijse.project.layered.model.ItemModel;
+//import lk.ijse.project.layered.model.OrderModel;
 import java.sql.Date;
 
 import java.net.URL;
@@ -49,10 +49,10 @@ public class ItemController implements Initializable {
     public TableColumn<CartTM, Double> colTotal;
     public TableColumn<CartTM, Button> colAction;
 
-    private final OrderModel orderModel = new OrderModel();
-    private final CustomerModel customerModel = new CustomerModel();
-    private final ItemModel itemModel = new ItemModel();
-    private final InventoryModel inventoryModel = new InventoryModel();
+   // private final OrderModel orderModel = new OrderModel();
+   // private final CustomerModel customerModel = new CustomerModel();
+   // private final ItemModel itemModel = new ItemModel();
+  //  private final InventoryModel inventoryModel = new InventoryModel();
     private final ObservableList<CartTM> cartData = FXCollections.observableArrayList();
 
     private final ItemBO itemBO = BOFactory.getInstance().getBO(BOType.ITEM);
@@ -234,7 +234,7 @@ public class ItemController implements Initializable {
     private void loadOrderIds() throws SQLException, ClassNotFoundException {
         List<String> customerIdsList = orderBO.getAllOrderIds();
         ObservableList<String> customerIds = FXCollections.observableArrayList(customerIdsList);
-        customerIds.addAll(customerIdsList);
+       // customerIds.addAll(customerIdsList);
        // System.out.println(customerIdsList.getFirst());
         cmOrderId.setItems(customerIds);
 

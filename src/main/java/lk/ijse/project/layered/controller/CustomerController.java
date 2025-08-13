@@ -22,7 +22,7 @@ import lk.ijse.project.layered.bo.exception.InUseException;
 import lk.ijse.project.layered.db.DBConnection;
 import lk.ijse.project.layered.dto.CustomerDto;
 import lk.ijse.project.layered.dto.tm.CustomerTM;
-import lk.ijse.project.layered.model.CustomerModel;
+//import lk.ijse.project.layered.model.CustomerModel;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -48,7 +48,7 @@ public class CustomerController implements Initializable {
 
     @FXML
 
-    private final CustomerModel customerModel = new CustomerModel();
+   // private final CustomerModel customerModel = new CustomerModel();
     private final CustomerBO customerBO = BOFactory.getInstance().getBO(BOType.CUSTOMER);
 
 
@@ -283,7 +283,7 @@ public class CustomerController implements Initializable {
 
     public void btnSendOnAction(ActionEvent actionEvent) throws IOException {
         CustomerTM selectedItem = tblCustomer.getSelectionModel().getSelectedItem();
-        if(customerModel == null) {
+        if(customerBO == null) {
             return;
         }
         try {
@@ -313,7 +313,7 @@ public class CustomerController implements Initializable {
 
     public void btnReportOnAction(ActionEvent actionEvent) {
         CustomerTM selectedId = tblCustomer.getSelectionModel().getSelectedItem();
-        if(customerModel == null) {
+        if(customerBO == null) {
             return;
         }
         try {

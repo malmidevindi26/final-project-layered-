@@ -13,7 +13,7 @@ import lk.ijse.project.layered.bo.custom.UtilityExpenseBO;
 import lk.ijse.project.layered.dto.UtilityExpenseDto;
 import lk.ijse.project.layered.dto.tm.CustomerTM;
 import lk.ijse.project.layered.dto.tm.UtilityTM;
-import lk.ijse.project.layered.model.UtilityExpenseModel;
+//import lk.ijse.project.layered.model.UtilityExpenseModel;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -27,7 +27,7 @@ public class UtilityExpenseController implements Initializable {
     public TextField txtAmount;
     public TextField txtBillingDate;
 
-    private final UtilityExpenseModel utilityExpenseModel = new UtilityExpenseModel();
+  //  private final UtilityExpenseModel utilityExpenseModel = new UtilityExpenseModel();
     private final UtilityExpenseBO utilityExpenseBO = BOFactory.getInstance().getBO(BOType.UTILITYEXPENSE);
 
     public TableView<UtilityTM> tblUtility;

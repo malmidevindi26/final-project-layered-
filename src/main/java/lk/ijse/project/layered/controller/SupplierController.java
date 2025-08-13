@@ -14,8 +14,8 @@ import lk.ijse.project.layered.bo.custom.SupplierBO;
 import lk.ijse.project.layered.dto.SupplierDto;
 import lk.ijse.project.layered.dto.tm.CustomerTM;
 import lk.ijse.project.layered.dto.tm.SupplierTM;
-import lk.ijse.project.layered.model.InventoryModel;
-import lk.ijse.project.layered.model.SupplierModel;
+//import lk.ijse.project.layered.model.InventoryModel;
+//import lk.ijse.project.layered.model.SupplierModel;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -33,8 +33,8 @@ public class SupplierController implements Initializable {
     public TextField txtAmount;
     public TextField txtDate;
 
-    private final SupplierModel supplierModel = new SupplierModel();
-    private final InventoryModel inventoryModel = new InventoryModel();
+   // private final SupplierModel supplierModel = new SupplierModel();
+   // private final InventoryModel inventoryModel = new InventoryModel();
     private final SupplierBO supplierBO = BOFactory.getInstance().getBO(BOType.SUPPLIER);
     private final InventoryBO inventoryBO = BOFactory.getInstance().getBO(BOType.INVENTORY);
 

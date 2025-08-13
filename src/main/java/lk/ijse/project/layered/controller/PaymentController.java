@@ -36,12 +36,12 @@ public class PaymentController implements Initializable {
     public TextField txtMethod;
     public TextField txtStatus;
     public TextField txtDate;
-    private final PaymentModel paymentModel = new PaymentModel();
-    private final OrderModel orderModel = new OrderModel();
-    private final OrderItemModel orderItemModel = new OrderItemModel();
-    private final OrderServiceModel orderServiceModel = new OrderServiceModel();
-    private final PenaltyModel penaltyModel = new PenaltyModel();
-    private final StoreManagementModel storeModel = new StoreManagementModel();
+   // private final PaymentModel paymentModel = new PaymentModel();
+  //  private final OrderModel orderModel = new OrderModel();
+    //private final OrderItemModel orderItemModel = new OrderItemModel();
+    //private final OrderServiceModel orderServiceModel = new OrderServiceModel();
+   // private final PenaltyModel penaltyModel = new PenaltyModel();
+   // private final StoreManagementModel storeModel = new StoreManagementModel();
 
     private final PaymentBO paymentBO = BOFactory.getInstance().getBO(BOType.PAYMENT);
     private final PenaltyBO penaltyBO = BOFactory.getInstance().getBO(BOType.PENALTY);
@@ -133,9 +133,6 @@ public class PaymentController implements Initializable {
     /// /
     private void updateTotalAmount() {
         try {
-            OrderItemModel orderItemModel = new OrderItemModel();
-            OrderServiceModel orderServiceModel = new OrderServiceModel();
-            PenaltyModel penaltyModel = new PenaltyModel();
 
             String orderId = cmOrderId.getValue();
             String paymentDate = txtDate.getText();

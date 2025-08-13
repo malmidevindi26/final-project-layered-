@@ -13,7 +13,7 @@ import lk.ijse.project.layered.bo.custom.MachineBO;
 import lk.ijse.project.layered.dto.MachineDto;
 import lk.ijse.project.layered.dto.tm.CustomerTM;
 import lk.ijse.project.layered.dto.tm.MachineTM;
-import lk.ijse.project.layered.model.MachineModel;
+//import lk.ijse.project.layered.model.MachineModel;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -42,7 +42,7 @@ public class MachineController implements Initializable {
     public ComboBox <String>comType;
     public Button btnReport;
 
-    MachineModel machineModel = new MachineModel();
+   // MachineModel machineModel = new MachineModel();
     private final MachineBO machineBO = BOFactory.getInstance().getBO(BOType.MACHINE);
 
     private final String datePattern = "^\\d{4}-\\d{2}-\\d{2}$";

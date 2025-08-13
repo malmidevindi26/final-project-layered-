@@ -14,8 +14,8 @@ import lk.ijse.project.layered.bo.custom.StoreManagementBO;
 import lk.ijse.project.layered.dto.StoreManagementDto;
 import lk.ijse.project.layered.dto.tm.CustomerTM;
 import lk.ijse.project.layered.dto.tm.StoreTM;
-import lk.ijse.project.layered.model.OrderModel;
-import lk.ijse.project.layered.model.StoreManagementModel;
+//import lk.ijse.project.layered.model.OrderModel;
+//import lk.ijse.project.layered.model.StoreManagementModel;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -45,8 +45,8 @@ public class StoreManagementController implements Initializable {
         return isValid;
     }
 
-    private final StoreManagementModel storeManagementModel = new StoreManagementModel();
-    private final OrderModel orderModel = new OrderModel();
+  //  private final StoreManagementModel storeManagementModel = new StoreManagementModel();
+ //   private final OrderModel orderModel = new OrderModel();
     private final StoreManagementBO storeManagementBO = BOFactory.getInstance().getBO(BOType.STOREMANAGEMENT);
     private final OrderBO orderBO = BOFactory.getInstance().getBO(BOType.ORDER);
 

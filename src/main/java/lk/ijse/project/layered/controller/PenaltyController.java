@@ -15,9 +15,9 @@ import lk.ijse.project.layered.bo.custom.StoreManagementBO;
 import lk.ijse.project.layered.dto.PenaltyDto;
 import lk.ijse.project.layered.dto.tm.CustomerTM;
 import lk.ijse.project.layered.dto.tm.PenaltyTm;
-import lk.ijse.project.layered.model.OrderModel;
-import lk.ijse.project.layered.model.PenaltyModel;
-import lk.ijse.project.layered.model.StoreManagementModel;
+//import lk.ijse.project.layered.model.OrderModel;
+//import lk.ijse.project.layered.model.PenaltyModel;
+//import lk.ijse.project.layered.model.StoreManagementModel;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -32,9 +32,9 @@ public class PenaltyController implements Initializable {
     public TextField txtStoreId;
     public TextField txtAmount;
     public TextField txtReason;
-    private final PenaltyModel penaltyModel=new PenaltyModel();
-    private final OrderModel orderModel=new OrderModel();
-    private final StoreManagementModel storeManagementModel=new StoreManagementModel();
+   // private final PenaltyModel penaltyModel=new PenaltyModel();
+   // private final OrderModel orderModel=new OrderModel();
+   // private final StoreManagementModel storeManagementModel=new StoreManagementModel();
 
     private final PenaltyBO penaltyBO = BOFactory.getInstance().getBO(BOType.PENALTY);
     private final OrderBO orderBO = BOFactory.getInstance().getBO(BOType.ORDER);

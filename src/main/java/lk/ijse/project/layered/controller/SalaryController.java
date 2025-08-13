@@ -14,8 +14,8 @@ import lk.ijse.project.layered.bo.custom.SalaryBO;
 import lk.ijse.project.layered.dto.SalaryDto;
 import lk.ijse.project.layered.dto.tm.CustomerTM;
 import lk.ijse.project.layered.dto.tm.SalaryTM;
-import lk.ijse.project.layered.model.EmployeeModel;
-import lk.ijse.project.layered.model.SalaryModel;
+//import lk.ijse.project.layered.model.EmployeeModel;
+//import lk.ijse.project.layered.model.SalaryModel;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -29,8 +29,8 @@ public class SalaryController implements Initializable {
     public TextField txtEmpId;
     public TextField txtAmount;
     public TextField txtDate;
-    private final SalaryModel salaryModel = new SalaryModel();
-    private final EmployeeModel employeeModel = new EmployeeModel();
+   // private final SalaryModel salaryModel = new SalaryModel();
+   // private final EmployeeModel employeeModel = new EmployeeModel();
     public TableView <SalaryTM> tblSalary;
     public TableColumn <SalaryTM, String> colSalaryId;
     public TableColumn <SalaryTM, String> colEmpId;

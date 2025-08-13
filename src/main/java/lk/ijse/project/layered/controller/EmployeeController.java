@@ -14,7 +14,7 @@ import lk.ijse.project.layered.bo.exception.InUseException;
 import lk.ijse.project.layered.dto.EmployeeDto;
 import lk.ijse.project.layered.dto.tm.CustomerTM;
 import lk.ijse.project.layered.dto.tm.EmployeeTM;
-import lk.ijse.project.layered.model.EmployeeModel;
+//import lk.ijse.project.layered.model.EmployeeModel;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -31,7 +31,7 @@ public class EmployeeController implements Initializable {
     public TextField txtDate;
     public TextField txtRole;
 
-    private final EmployeeModel employeeModel = new EmployeeModel();
+   // private final EmployeeModel employeeModel = new EmployeeModel();
     private final EmployeeBO employeeBO = BOFactory.getInstance().getBO(BOType.EMPLOYEE);
 
     public TableView <EmployeeTM>tblEmployee;

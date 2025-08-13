@@ -40,10 +40,10 @@ public class OrderController implements Initializable {
     public TextField txtDate;
     public TextField txtStatus;
 
-    private final OrderModel orderModel = new OrderModel();
-    private final CustomerModel customerModel = new CustomerModel();
-    private final ServiceModel serviceModel = new ServiceModel();
-    private  final StoreManagementModel storeManagementModel = new StoreManagementModel();
+  //  private final OrderModel orderModel = new OrderModel();
+  //  private final CustomerModel customerModel = new CustomerModel();
+   // private final ServiceModel serviceModel = new ServiceModel();
+   // private  final StoreManagementModel storeManagementModel = new StoreManagementModel();
 
     private final CustomerBO customerBO = BOFactory.getInstance().getBO(BOType.CUSTOMER);
     private final OrderBO orderBO = BOFactory.getInstance().getBO(BOType.ORDER);
@@ -313,7 +313,7 @@ public class OrderController implements Initializable {
 
     public void ReportOnAction(ActionEvent actionEvent) {
         OrderTM selectedItem = tblOrder.getSelectionModel().getSelectedItem();
-        if (orderModel == null) {
+        if (orderBO == null) {
             return;
         }
         try {

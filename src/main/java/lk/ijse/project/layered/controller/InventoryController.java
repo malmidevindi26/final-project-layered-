@@ -14,7 +14,7 @@ import lk.ijse.project.layered.bo.exception.DuplicateException;
 import lk.ijse.project.layered.dto.InventoryDto;
 import lk.ijse.project.layered.dto.tm.CustomerTM;
 import lk.ijse.project.layered.dto.tm.InventoryTM;
-import lk.ijse.project.layered.model.InventoryModel;
+//import lk.ijse.project.layered.model.InventoryModel;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -31,7 +31,7 @@ public class InventoryController implements Initializable {
     public TextField txtStatus;
     public TextField txtQty;
 
-    private final InventoryModel inventoryModel = new InventoryModel();
+   // private final InventoryModel inventoryModel = new InventoryModel();
     private final InventoryBO inventoryBO = BOFactory.getInstance().getBO(BOType.INVENTORY);
 
     public TableView <InventoryTM>tblInventory;

@@ -13,7 +13,7 @@ import lk.ijse.project.layered.bo.custom.PromotionBO;
 import lk.ijse.project.layered.dto.PromotionDto;
 import lk.ijse.project.layered.dto.tm.CustomerTM;
 import lk.ijse.project.layered.dto.tm.PromotionTM;
-import lk.ijse.project.layered.model.PromotionModel;
+//import lk.ijse.project.layered.model.PromotionModel;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -28,7 +28,7 @@ public class PromotionController implements Initializable {
     public TextField txtDate;
     public TextField txtDesc;
 
-    private final PromotionModel promotionModel = new PromotionModel();
+  //  private final PromotionModel promotionModel = new PromotionModel();
     public TableView <PromotionTM> tblPromotion;
     public TableColumn <PromotionTM,String> colId;
     public TableColumn <PromotionTM,String> colCode;

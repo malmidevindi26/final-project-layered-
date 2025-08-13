@@ -13,7 +13,7 @@ import lk.ijse.project.layered.bo.custom.ServiceBO;
 import lk.ijse.project.layered.dto.ServiceDto;
 import lk.ijse.project.layered.dto.tm.CustomerTM;
 import lk.ijse.project.layered.dto.tm.ServiceTM;
-import lk.ijse.project.layered.model.ServiceModel;
+//import lk.ijse.project.layered.model.ServiceModel;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -27,7 +27,7 @@ public class ServiceController implements Initializable {
     public TextField txtPrice;
     public TextField txtDesc;
 
-    private final ServiceModel serviceModel = new ServiceModel();
+  //  private final ServiceModel serviceModel = new ServiceModel();
     public TableView <ServiceTM> tblService;
     public TableColumn <ServiceTM,String> colId;
     public TableColumn <ServiceTM,String> colName;
